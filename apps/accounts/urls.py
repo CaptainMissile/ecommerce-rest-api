@@ -1,10 +1,11 @@
 from django.urls import path
 
-from .views import RegisterView, VerifyEmail
+from .views import RegisterAPI, VerifyEmailAPI, LoginAPI
 
 app_name = 'accounts'
 
 urlpatterns = [
-    path('register/', RegisterView.as_view(), name='register'),
-    path('email-verify/', VerifyEmail.as_view(), name='verify_email')
+    path('register/', RegisterAPI.as_view(), name='register'),
+    path('verify-email/', VerifyEmailAPI.as_view(), name='verify_email'),
+    path('login/', LoginAPI.as_view(), name="login")
 ]

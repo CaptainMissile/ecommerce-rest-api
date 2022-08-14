@@ -65,7 +65,6 @@ DATABASES = {
 }
 
 REST_FRAMEWORK = {
-    'NON_FIELD_ERRORS_KEY': 'error',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
@@ -77,6 +76,8 @@ AUTH_PASSWORD_VALIDATORS = [
     { 'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
     { 'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
