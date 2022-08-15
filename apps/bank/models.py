@@ -2,7 +2,11 @@ from django.db import models
 
 from django.conf import settings
 
+from apps.accounts.models import User
+
+
 class BankAccount(models.Model):
+    account_owner = models.ForeignKey(User, on_delete= models.CASCADE, related_name='bank_account_owner')
     account_no = models.PositiveBigIntegerField(unique=True,primary_key=True)
     balance = models.DecimalField(max_digits=10, decimal_places=3, default= 0)
     credential = models.CharField(max_length=100)

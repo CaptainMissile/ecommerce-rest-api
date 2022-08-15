@@ -1,15 +1,20 @@
+import jwt
+
 from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth import authenticate
 from django.urls import reverse
 from django.conf import settings
 
-import jwt
 from rest_framework.response import Response
-from rest_framework import generics, status
+from rest_framework import generics, status, views
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from apps.accounts.serializers import RegisterSerializer
-from apps.accounts.utils import Util
 from .models import User
+from apps.accounts.serializers import (RegisterSerializer, LoginSerializer,
+                                       ProfileSerializer)
+from apps.accounts.utils import Util
+
 
 # Create your views here.
 class RegisterAPI(generics.GenericAPIView):
@@ -64,6 +69,36 @@ class VerifyEmailAPI(generics.GenericAPIView):
             return Response({'error': 'Invalid Token'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class LoginAPI(generics.GenericAPIView):
-    def get(self, request):
-        pass
+class LoginAPI(views.APIView):
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+
+        serializer.is_valid(raise_exception=True)
+        email = serializer.data.get('email')
+        password = serializer.data.get('password')
+        user = authenticate(email=email, password=password)
+
+        if user is not None:
+            token = self.get_tokens_for_user(user)
+            return Response(token, status=status.HTTP_200_OK)
+        else:
+            return Response({'error':'Email or Password is not valid'}, status=status.HTTP_404_NOT_FOUND)
+
+
+    def get_tokens_for_user(self, user):
+        refresh = RefreshToken.for_user(user)
+
+        return {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+            }
+
+
+
+class ProfileViewAPI(views.APIView):
+  permission_classes = [IsAuthenticatedOrReadOnly]
+
+  def get(self, request, format=None):
+    serializer = ProfileSerializer(request.user)
+
+    return Response(serializer.data, status=status.HTTP_200_OK)
