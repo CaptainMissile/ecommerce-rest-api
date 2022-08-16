@@ -7,12 +7,13 @@ from django.conf import settings
 
 from rest_framework.response import Response
 from rest_framework import generics, status, views
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import (IsAuthenticatedOrReadOnly,
+                                        IsAuthenticated)
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .models import User
+from .models import User, Profile
 from apps.accounts.serializers import (RegisterSerializer, LoginSerializer,
-                                       ProfileSerializer)
+                                       ProfileSerializer, LogoutSerializer)
 from apps.accounts.utils import Util
 
 
@@ -69,6 +70,7 @@ class VerifyEmailAPI(generics.GenericAPIView):
             return Response({'error': 'Invalid Token'}, status=status.HTTP_400_BAD_REQUEST)
 
 
+
 class LoginAPI(views.APIView):
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
@@ -84,7 +86,6 @@ class LoginAPI(views.APIView):
         else:
             return Response({'error':'Email or Password is not valid'}, status=status.HTTP_404_NOT_FOUND)
 
-
     def get_tokens_for_user(self, user):
         refresh = RefreshToken.for_user(user)
 
@@ -94,11 +95,39 @@ class LoginAPI(views.APIView):
             }
 
 
+class LogoutAPI(views.APIView):
+    permission_classes = [IsAuthenticated]
 
-class ProfileViewAPI(views.APIView):
+    def post(self, request):
+        serializer = LogoutSerializer(data=request.data)
+
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+class ProfileAPI(views.APIView):
   permission_classes = [IsAuthenticatedOrReadOnly]
 
-  def get(self, request, format=None):
-    serializer = ProfileSerializer(request.user)
+  def get(self, request, username, format=None):
+    profile = Profile.objects.filter(user__username = username)
 
+    serializer = ProfileSerializer(profile[0])
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+  def put(self, request, username, format=None):
+    if request.user.username == username:
+        profile_instance = Profile.objects.get(user__username = username)
+
+        serializer = ProfileSerializer(
+                            instance= profile_instance,
+                            data = request.data,
+                            partial=True)
+
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response({'msg': 'Profile Updated'}, status = status.HTTP_200_OK)
+    
+    return Response({'error':'You are not authorized to make this change'}, status = status.HTTP_400_BAD_REQUEST)

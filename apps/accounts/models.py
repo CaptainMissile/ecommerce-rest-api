@@ -22,6 +22,7 @@ class UserManager(BaseUserManager):
 
         return user
 
+
     def create_superuser(self, username, email, password=None):
         if password is None:
             raise TypeError('Password should not be none')
@@ -71,3 +72,8 @@ class Profile(models.Model):
     birth_date = models.DateField(null=True, blank=True)
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1, null=True, blank=True)
     contact_no = models.CharField(max_length=15, blank=True, null=True)
+    bank_account = models.PositiveBigIntegerField(blank=True, null=True)
+    profile_pic = models.ImageField(upload_to='profile_pictures/', default = "images/default.png", null=True, blank=True)
+
+    def __str__(self):
+        return self.user.username

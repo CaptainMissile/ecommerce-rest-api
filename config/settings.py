@@ -2,7 +2,6 @@ import datetime
 from pathlib import Path
 
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-5hf@sdz!2+oyfb+3pdenbs^wrse-w$$hd728r_)u4ql5&e^mjl'
 DEBUG = True
@@ -18,6 +17,7 @@ INSTALLED_APPS = [
 
     # EXTERNAL APP
     'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',
 
     # CREATED APPS
     'apps.accounts',
