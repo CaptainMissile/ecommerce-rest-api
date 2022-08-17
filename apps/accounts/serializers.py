@@ -38,6 +38,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         read_only_fields = ('user',)
 
 
+
 class LogoutSerializer(serializers.Serializer):
     refresh = serializers.CharField()
 

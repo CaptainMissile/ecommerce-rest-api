@@ -18,18 +18,16 @@ from apps.accounts.utils import Util
 
 
 # Create your views here.
-class RegisterAPI(generics.GenericAPIView):
-    serializer_class = RegisterSerializer
-
+class RegisterAPI(views.APIView):
     def post(self, request):
         user = request.data
-        serializer = self.serializer_class(data = user)
+        serializer = RegisterSerializer(data = user)
 
         if serializer.is_valid():
             serializer.save()
             user_data = serializer.data
-            user = User.objects.get(email= user_data['email'])
 
+            user = User.objects.get(email= user_data['email'])
             token = RefreshToken.for_user(user).access_token
 
             current_site = get_current_site(request).domain

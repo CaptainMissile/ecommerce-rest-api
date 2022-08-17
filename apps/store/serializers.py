@@ -7,5 +7,9 @@ class StoreSerializer(serializers.ModelSerializer):
         model = Store
         fields = '__all__'
 
-    def create(self, validated_data):
-        return Store.objects.create(**validated_data)
+
+class StoreUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Store
+        fields = '__all__'
+        read_only_fields = ('id','owner')
