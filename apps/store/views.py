@@ -58,6 +58,7 @@ class StoreUpdateAPI(views.APIView):
         return Response({'error':'You are not authorized to make this change'}, status = status.HTTP_400_BAD_REQUEST)
 
 
+
 class StoreDeleteAPI(views.APIView):
     permission_classes = [IsAuthenticated, IsAuthenticatedStoreOwner]
 
@@ -71,6 +72,7 @@ class StoreDeleteAPI(views.APIView):
 
         store_instance.delete()
         return Response({'msg': 'Store Deleted'}, status = status.HTTP_200_OK)
+
 
         
 class StoreSingleAPI(views.APIView):
