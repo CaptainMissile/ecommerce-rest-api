@@ -4,11 +4,21 @@ from django.conf import settings
 
 from apps.accounts.models import User
 
+class BankOption(models.Model):
+    key = models.CharField(max_length=100, primary_key=True)
+    value = models.PositiveBigIntegerField()
+
+    def __str__(self):
+        return f'({self.key}, {self.value})'
+
 
 class BankAccount(models.Model):
     account_no = models.PositiveBigIntegerField(unique=True,primary_key=True)
     balance = models.DecimalField(max_digits=10, decimal_places=3, default= 0)
     credential = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.account_no
     
 
 class Transaction(models.Model):

@@ -98,5 +98,9 @@ class StoreListAPI(views.APIView):
 
 
 class StoreFilteredListAPI(views.APIView):
+    '''FILTER WITH
+            1. OWNER
+            2. NAME
+    '''
     def get(request):
         pass

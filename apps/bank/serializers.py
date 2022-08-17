@@ -7,6 +7,12 @@ class BankAccountSerializer(serializers.ModelSerializer):
         model = BankAccount
         fields= '__all__'
 
+
+class BankAccountUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BankAccount
+        fields= ('credential',)
+
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
