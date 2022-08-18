@@ -5,20 +5,22 @@ from django.contrib.auth import authenticate
 from django.urls import reverse
 from django.conf import settings
 
-from rest_framework.response import Response
+from rest_framework.views import Response, APIView
 from rest_framework import generics, status, views
 from rest_framework.permissions import (IsAuthenticatedOrReadOnly,
                                         IsAuthenticated)
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .models import User, Profile
+
+from apps.accounts.models import User, Profile
 from apps.accounts.serializers import (RegisterSerializer, LoginSerializer,
                                        ProfileSerializer, LogoutSerializer)
+from apps.accounts.permissions import IsVerified
 from apps.accounts.utils import Util
 
 
 # Create your views here.
-class RegisterAPI(views.APIView):
+class RegisterAPI(APIView):
     def post(self, request):
         user = request.data
         serializer = RegisterSerializer(data = user)
@@ -45,7 +47,7 @@ class RegisterAPI(views.APIView):
             return Response(status = status.HTTP_400_BAD_REQUEST)
 
 
-class VerifyEmailAPI(generics.GenericAPIView):
+class VerifyEmailAPI(APIView):
     def get(self, request):
         token = request.GET.get('token')
 
@@ -69,7 +71,9 @@ class VerifyEmailAPI(generics.GenericAPIView):
 
 
 
-class LoginAPI(views.APIView):
+class LoginAPI(APIView):
+    permission_classes = [IsVerified]
+
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
 

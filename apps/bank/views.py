@@ -1,17 +1,25 @@
+from ast import Raise
+from logging import raiseExceptions
+from typing import List
 from rest_framework.permissions import (IsAuthenticated,
                                         IsAuthenticatedOrReadOnly)
 from rest_framework.views import APIView, Response
+from rest_framework.generics import ListAPIView
 from rest_framework import status
 
-from apps.store.permissions import IsSeller, IsAuthenticatedStoreOwner
-from apps.bank.serializers import (BankAccountSerializer, TransactionSerializer,
-                                    BankAccountUpdateSerializer)
+from config.paginations import PagePagination
+from apps.bank.permissions import (IsBankAccountOwnerOrManager,
+                            IsBankManager)
+from apps.bank.serializers import (BankAccountSerializer,
+                                   BankAccountUpdateSerializer,
+                                   AddMoneyRequestSerializer,
+                                   SendMoneyRequestSerializer,
+                                   TransactionSerializer)
 
 from apps.bank.models import BankOption, BankAccount, Transaction
-from apps.store.models import Store
 from apps.accounts.models import Profile
-# Create your views here.
 
+# Create your views here.
 class BankAccountCreateAPI(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -44,11 +52,11 @@ class BankAccountCreateAPI(APIView):
 
 
 class BankAccountUpdateAPI(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsBankAccountOwnerOrManager]
 
     def put(self, request, account_no, format=None):
         try:
-            account_instance = BankAccount.objects.get(id = account_no)
+            account_instance = BankAccount.objects.get(account_no = account_no)
         except:
             return Response({'error':'Bank Account does not exist'}, status = status.HTTP_400_BAD_REQUEST)
 
@@ -67,48 +75,155 @@ class BankAccountUpdateAPI(APIView):
 
 
 
-# class StoreDeleteAPI(views.APIView):
-#     permission_classes = [IsAuthenticated, IsAuthenticatedStoreOwner]
+class BankAccountDeleteAPI(APIView):
+    permission_classes = [IsAuthenticated, IsBankAccountOwnerOrManager]
 
-#     def delete(self, request, store_id, format=None):
-#         try:
-#             store_instance = Store.objects.get(id = store_id)
-#         except:
-#             return Response({'error':'Store does not exist'}, status = status.HTTP_400_BAD_REQUEST)
+    def delete(self, request, account_no, format=None):
+        try:
+            acc_instance = BankAccount.objects.get(account_no = account_no)
+
+            profile = Profile.objects.get(user__id = request.user.id) 
+            profile.bank_account = None
+            profile.save()
+        except:
+            return Response({'error':'Bank Account does not exist'}, status = status.HTTP_400_BAD_REQUEST)
         
-#         self.check_object_permissions(request, store_instance)
+        self.check_object_permissions(request, acc_instance)
+        acc_instance.delete()
 
-#         store_instance.delete()
-#         return Response({'msg': 'Store Deleted'}, status = status.HTTP_200_OK)
+        return Response({'msg': 'Bank Account Deleted'}, status = status.HTTP_200_OK)
 
 
         
-# class StoreSingleAPI(views.APIView):
-#     permission_classes = [IsAuthenticatedOrReadOnly]
+class BankAccountSingleAPI(APIView):
+    permission_classes = [IsAuthenticated, IsBankAccountOwnerOrManager]
 
-#     def get(self, request, store_id):
-#         try:
-#             store_instance = Store.objects.get(id = store_id)
-#         except:
-#             return Response({'error':'Store does not exist'}, status = status.HTTP_400_BAD_REQUEST)
+    def get(self, request, account_no):
+        try:
+            acc_instance = BankAccount.objects.get(id = account_no)
+        except:
+            return Response({'error':'Bank Account does not exist'}, status = status.HTTP_400_BAD_REQUEST)
 
-#         serializer = StoreSerializer(store_instance)
-#         return Response(serializer.data, status= status.HTTP_200_OK)
-
-
-# class StoreListAPI(views.APIView):
-#     permission_classes = [IsAuthenticatedOrReadOnly]
-
-#     def get(self, request):
-#         store_instances = Store.objects.all()
-#         serializer = StoreSerializer(store_instances, many=True)
-#         return Response(serializer.data, status= status.HTTP_200_OK)
+        serializer = BankAccountSerializer(acc_instance)
+        return Response(serializer.data, status= status.HTTP_200_OK)
 
 
-# class StoreFilteredListAPI(views.APIView):
-#     '''FILTER WITH
-#             1. OWNER
-#             2. NAME
-#     '''
-#     def get(request):
-#         pass
+class BankAccountListAPI(ListAPIView):
+    permission_classes = [IsAuthenticated,IsBankManager]
+    serializer_class = BankAccountSerializer
+    pagination_class = PagePagination
+
+
+class AddMoneyToAccountRequestAPI(APIView):
+    def post(self, request):
+        serializer = AddMoneyRequestSerializer(data = request.data)
+
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response({'msg': 'Money Added Request Sent Successfully.'},
+                            status = status.HTTP_200_OK)
+        
+        return Response({"error" : "Money Add Request Can't be sent!"})
+
+
+class SendMoneyToAccountRequestAPI(APIView):
+    def post(self, request):
+        serializer = SendMoneyRequestSerializer(data = request.data)
+
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response({'msg': 'Send Money Request Sent Successfully.'},
+                            status = status.HTTP_200_OK)
+        
+        return Response({"error" : "Money Add Request Can't be sent!"})
+
+
+class TransactionSingleAPI(APIView):
+    def get(self,request, transaction_id):
+        try:
+            transaction = Transaction.objects.get(id = transaction_id)
+            serialiazer = TransactionSerializer(transaction)
+            return Response(serialiazer.data, status.HTTP_200_OK)
+        except:
+            return Response({'error': 'Somethimg went wrog!'},
+                            status = status.HTTP_400_BAD_REQUEST)
+
+
+
+
+class TransactionListAPI(ListAPIView):
+        permission_classes = [IsAuthenticated,IsBankManager]
+        queryset = Transaction.objects.all()
+        serializer_class = TransactionSerializer
+        pagination_class = PagePagination
+
+
+
+class ApproveCashInRequestAPI(APIView):
+    permission_classes = [IsAuthenticated, IsBankManager]
+
+    def get(self, request, transaction_id):
+        transaction = Transaction.objects.get(id = transaction_id)
+
+        try:
+            if transaction.type == 'I' and transaction.is_approved == False:
+                account_to = BankAccount.objects.get(account_no = transaction.account_to.account_no)
+                cur_balance =  account_to.balance + transaction.amount
+                account_to.balance = cur_balance
+                transaction.is_approved = True
+                transaction.approved_by = request.user
+                transaction.status = 'A'
+
+                transaction.save()
+                account_to.save()
+            else:
+                return Response({'error' : 'Sorry Something Went Wrong!'},
+                            status = status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response({'error' : 'Sorry Something Went Wrong!'},
+                            status = status.HTTP_400_BAD_REQUEST)
+
+        
+        return Response({'msg': 'Your Cash In Request Successfully Approved'},
+                        status = status.HTTP_200_OK)
+
+
+
+class ApproveSendMoneyRequestAPI(APIView):
+    def get(self, request, transaction_id):
+        try:
+            transaction = Transaction.objects.get(id = transaction_id)
+            
+            if transaction.type == 'S' and transaction.is_approved == False:
+                account_from = BankAccount.objects.get(account_no = transaction.account_from.account_no)
+                account_to = BankAccount.objects.get(account_no = transaction.account_to.account_no)
+
+                if transaction.credential == account_from.credential:
+                    if account_from.balance >= transaction.amount:
+                        cur_balance = account_from.balance - transaction.amount
+                        account_from.balance = cur_balance
+                    else:
+                        return Response({"error" : "Your account balance is low."},
+                                        status= status.HTTP_400_BAD_REQUEST)
+                else:
+                    return Response({"error" : "Credential does not match."},
+                                        status= status.HTTP_400_BAD_REQUEST)
+            
+            
+                cur_balance =  account_to.balance + transaction.amount
+                account_to.balance = cur_balance
+                transaction.status = 'A'
+                transaction.is_approved = True
+
+                account_from.save()
+                transaction.save()
+                account_to.save()
+            else:
+                return Response({"error" : "Something Went Wrong."},
+                                        status= status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response({'error' : 'Sorry Something Went Wrong!'})
+
+        
+        return Response({'msg': 'Your Send MoneyRequest Successfully Approved'},
+                        status = status.HTTP_200_OK)

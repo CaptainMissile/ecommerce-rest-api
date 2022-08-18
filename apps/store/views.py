@@ -1,11 +1,12 @@
-from django.shortcuts import get_object_or_404
+from django.conf import settings
 
-from rest_framework import views
 from rest_framework.permissions import (IsAuthenticated,
                                         IsAuthenticatedOrReadOnly)
-from rest_framework.views import Response
+from rest_framework.views import APIView, Response
+from rest_framework.generics import ListAPIView
 from rest_framework import status
 
+from config.paginations import PagePagination
 from apps.store.permissions import IsSeller, IsAuthenticatedStoreOwner
 from apps.store.serializers import StoreSerializer, StoreUpdateSerializer
 from apps.store.models import Store
@@ -18,7 +19,7 @@ from apps.store.models import Store
 # READ ALL THE STORE INFO
 # STORE INFO FILTERED BY OWNER OR PRODUCT OR CATEGORY OR STORE NAME
 
-class StoreCreateAPI(views.APIView):
+class StoreCreateAPI(APIView):
     permission_classes = [IsAuthenticated, IsSeller]
 
     def post(self, request):
@@ -35,7 +36,7 @@ class StoreCreateAPI(views.APIView):
         return Response({'error': 'Something Went wrong.Try again'})
 
 
-class StoreUpdateAPI(views.APIView):
+class StoreUpdateAPI(APIView):
     permission_classes = [IsAuthenticated, IsAuthenticatedStoreOwner]
 
     def put(self, request, store_id, format=None):
@@ -59,7 +60,7 @@ class StoreUpdateAPI(views.APIView):
 
 
 
-class StoreDeleteAPI(views.APIView):
+class StoreDeleteAPI(APIView):
     permission_classes = [IsAuthenticated, IsAuthenticatedStoreOwner]
 
     def delete(self, request, store_id, format=None):
@@ -75,7 +76,7 @@ class StoreDeleteAPI(views.APIView):
 
 
         
-class StoreSingleAPI(views.APIView):
+class StoreSingleAPI(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get(self, request, store_id):
@@ -88,16 +89,15 @@ class StoreSingleAPI(views.APIView):
         return Response(serializer.data, status= status.HTTP_200_OK)
 
 
-class StoreListAPI(views.APIView):
+class StoreListAPI(ListAPIView):
+    queryset = Store.objects.all()
+    serializer_class = StoreSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
-
-    def get(self, request):
-        store_instances = Store.objects.all()
-        serializer = StoreSerializer(store_instances, many=True)
-        return Response(serializer.data, status= status.HTTP_200_OK)
+    pagination_class = PagePagination
 
 
-class StoreFilteredListAPI(views.APIView):
+
+class StoreFilteredListAPI(APIView):
     '''FILTER WITH
             1. OWNER
             2. NAME

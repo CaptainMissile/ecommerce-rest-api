@@ -1,14 +1,29 @@
 from django.urls import path
 
-from .views import BankAccountCreateAPI
+from .views import (BankAccountCreateAPI,BankAccountUpdateAPI,
+                    BankAccountDeleteAPI,BankAccountSingleAPI,
+                    BankAccountListAPI, 
+                    AddMoneyToAccountRequestAPI,
+                    SendMoneyToAccountRequestAPI,
+                    TransactionSingleAPI,
+                    TransactionListAPI,
+                    ApproveCashInRequestAPI,
+                    ApproveSendMoneyRequestAPI)
 
 app_name = 'bank'
 
 urlpatterns = [
     path('create-account/', BankAccountCreateAPI.as_view(), name='create_account'),
-    # path('delete-store/<int:store_id>', StoreDeleteAPI.as_view(), name='delete_store'),
-    # path('update-store/<int:store_id>', StoreUpdateAPI.as_view(), name="update-store"),
-    # path('single-store/<int:store_id>', StoreSingleAPI.as_view(), name="store-single"),
-    # path('list-store/', StoreListAPI.as_view(), name="store-list"),
-    # path('filter-store/', StoreFilteredListAPI.as_view(), name="store-filter"),
+    path('update-account/<int:account_no>', BankAccountUpdateAPI.as_view(), name="update_account"),
+    path('delete-account/<int:account_no>', BankAccountDeleteAPI.as_view(), name='delete_account'),
+    path('single-account/<int:account_no>', BankAccountSingleAPI.as_view(), name="single-account"),
+    path('list-account/', BankAccountListAPI.as_view(), name="list-account"),
+
+
+    path('single-transaction/', TransactionSingleAPI.as_view(), name="single-transaction"),
+    path('list-transaction/', TransactionListAPI.as_view(), name="list_transaction"),
+    path('add-money-request/', AddMoneyToAccountRequestAPI.as_view(), name="add_money"),
+    path('send-money-request/', SendMoneyToAccountRequestAPI.as_view(), name="send_money"),
+    path('approve-cash-in-request/<int:transaction_id>', ApproveCashInRequestAPI.as_view(), name="approve_cash_in_request"),
+    path('approve-send-money-request/<int:transaction_id>', ApproveSendMoneyRequestAPI.as_view(), name="approve_send_money_request")
 ]

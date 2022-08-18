@@ -11,8 +11,53 @@
 				{
 					"name": "Profile Update",
 					"request": {
-						"method": "GET",
-						"header": []
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwNjY1NzY4LCJpYXQiOjE2NjA2NTEzNjgsImp0aSI6ImYwZDNhMWU5ZjAzZDQ2OTBiZmU4ODM3OGU1YjNhZWUwIiwidXNlcl9pZCI6MjV9.HczeEyxxwHKqNaDB59mSznlcU3Bkh1zCB-KkLF_eDeA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "Authorization",
+								"value": "bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwNTc5NzgxLCJpYXQiOjE2NjA1NjUzODEsImp0aSI6IjczOWZmMzhhNzQxYzQzMjZiZTE0OGRlOTljNTA5ZDI4IiwidXNlcl9pZCI6MjR9.kaoKC6VSPgwZSj6rcMyWxxfpVcCtq1Qf1oOaENHwDMw",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n    \"bank_account\" : \"10001\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/profile/sazin11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"profile",
+								"sazin11"
+							]
+						}
 					},
 					"response": []
 				},
@@ -20,7 +65,21 @@
 					"name": "Profile View",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/auth/profile/sazin11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"profile",
+								"sazin11"
+							]
+						}
 					},
 					"response": []
 				}
@@ -37,7 +96,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwNjM5OTcyLCJpYXQiOjE2NjA2MjU1NzIsImp0aSI6IjQ5NjcwMjQ5Y2MwMjQwY2JhYTljN2UyNzBjZWFhNTIzIiwidXNlcl9pZCI6MjV9.AcS3Wv4P-7sD1-AhlHZduR3Aj3C-NHYc6Z1SFpeQNuw",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwNzI2OTMwLCJpYXQiOjE2NjA3MTI1MzAsImp0aSI6IjNhMzc4YTkzZmJiZjRmNDg5ZTc3NjIzYWQ5OWI2YTYyIiwidXNlcl9pZCI6MjZ9.T2C436us9osheWR2bKLf1SVd_ZbAOjPtATJiIif2B08",
 									"type": "string"
 								}
 							]
@@ -46,7 +105,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\" : \"My new Modern Store\",\r\n    \"location\" : \"Center of Dhaka\",\r\n    \"Description\" : \"Dont Try to buy any product\"\r\n}",
+							"raw": "{\r\n    \"name\" : \"Al Mubaraka Shop\",\r\n    \"location\" : \"Sham\",\r\n    \"description\" : \"Thanks For visiting us.\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -78,7 +137,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwNjY1NzY4LCJpYXQiOjE2NjA2NTEzNjgsImp0aSI6ImYwZDNhMWU5ZjAzZDQ2OTBiZmU4ODM3OGU1YjNhZWUwIiwidXNlcl9pZCI6MjV9.HczeEyxxwHKqNaDB59mSznlcU3Bkh1zCB-KkLF_eDeA",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwNzI2OTMwLCJpYXQiOjE2NjA3MTI1MzAsImp0aSI6IjNhMzc4YTkzZmJiZjRmNDg5ZTc3NjIzYWQ5OWI2YTYyIiwidXNlcl9pZCI6MjZ9.T2C436us9osheWR2bKLf1SVd_ZbAOjPtATJiIif2B08",
 									"type": "string"
 								}
 							]
@@ -87,7 +146,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \r\n    \"id\" : 8,\r\n    \"location\" : \"Dhaka, Chittagong, Bangladesh\",\r\n    \"name\" : \"99+\"\r\n}",
+							"raw": "{   \r\n    \"location\" : \"Dhaka, Chittagong, Bangladesh\",\r\n    \"name\" : \"99+\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -95,7 +154,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/store/update-store/",
+							"raw": "http://localhost:8000/api/store/update-store/8",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -105,7 +164,7 @@
 								"api",
 								"store",
 								"update-store",
-								""
+								"8"
 							]
 						}
 					},
@@ -114,8 +173,32 @@
 				{
 					"name": "Delete Store",
 					"request": {
-						"method": "GET",
-						"header": []
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwNzI0MTc3LCJpYXQiOjE2NjA3MDk3NzcsImp0aSI6Ijk4OTM4OTE5YmQ4MzRkNTZiZjA5ZjJiZTEzNzc3NjA3IiwidXNlcl9pZCI6MjV9.Jo0XlAoQsCo86jVKME4NmTq28ePUb3SrZn0kun6eGE0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/store/delete-store/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"store",
+								"delete-store",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -123,7 +206,21 @@
 					"name": "List Store",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/store/list-store/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"store",
+								"list-store",
+								""
+							]
+						}
 					},
 					"response": []
 				},
@@ -135,97 +232,513 @@
 					},
 					"response": []
 				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwNjM5OTcyLCJpYXQiOjE2NjA2MjU1NzIsImp0aSI6IjQ5NjcwMjQ5Y2MwMjQwY2JhYTljN2UyNzBjZWFhNTIzIiwidXNlcl9pZCI6MjV9.AcS3Wv4P-7sD1-AhlHZduR3Aj3C-NHYc6Z1SFpeQNuw",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
 			]
 		},
 		{
-			"name": "Login1",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "default"
+			"name": "Bank",
+			"item": [
+				{
+					"name": "Bank Account Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwNzUzMDg3LCJpYXQiOjE2NjA3Mzg2ODcsImp0aSI6IjRhNzI2OTFlZDM5ZDQ4NDNhODU1NzQ0ZjI2YTQzZWY5IiwidXNlcl9pZCI6MjV9.dfCvxpKgAUzXZF3Crpq0imKhZZpRTACEPpP9b8ppnX0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwNzUzMDg3LCJpYXQiOjE2NjA3Mzg2ODcsImp0aSI6IjRhNzI2OTFlZDM5ZDQ4NDNhODU1NzQ0ZjI2YTQzZWY5IiwidXNlcl9pZCI6MjV9.dfCvxpKgAUzXZF3Crpq0imKhZZpRTACEPpP9b8ppnX0\n",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n    \"credential\" : \"donthackmyaccount\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/bank/create-account/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"bank",
+								"create-account",
+								""
+							]
+						}
 					},
-					{
-						"key": "Authorization",
-						"value": "",
-						"type": "default",
-						"disabled": true
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"email\" : \"s@s1.com\",\r\n    \"password\" : \"sazin123\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8000/api/auth/login/",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"auth",
-						"login",
-						""
-					]
+				{
+					"name": "Bank Account Update",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Bank Account Delete",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "List Bank",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/bank/list-account/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"bank",
+								"list-account",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add money",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"account_to\" : \"10002\",\r\n    \"amount\" : \"1000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/bank/add-money-request/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"bank",
+								"add-money-request",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Money",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \"account_from\" : \"10006\",\r\n    \"credential\" : \"dontrytohack\",\r\n    \"account_to\" : \"10002\",\r\n    \"amount\" : \"1000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/bank/send-money-request/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"bank",
+								"send-money-request",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cash In Approval",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwODUyMzMyLCJpYXQiOjE2NjA4Mzc5MzIsImp0aSI6IjEzOWQ3ZWFmZjg3MzQ4YWY4MjAwNDc1Nzk5YWU0NTc5IiwidXNlcl9pZCI6MjV9.rehpVDfHgaNuq8MOiDKbwYSeYJYc2PbLcMvH8b2Ywg0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/bank/approve-cash-in-request/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"bank",
+								"approve-cash-in-request",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Money Approval",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Single Transaction",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "List Transaction",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/bank/list-transaction/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"bank",
+								"list-transaction",
+								""
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Register",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "default"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"email\" : \"s@s1.com\",\r\n    \"username\": \"sazin11\",\r\n    \"password\" : \"sazi123\",\r\n    \"role\" : \"2\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login ( ADMIN - admin)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"admin@admin.com\",\r\n    \"password\": \"admin\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/login/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"login",
+								""
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "http://localhost:8000/api/auth/register/",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"auth",
-						"register",
-						""
-					],
-					"query": [
-						{
-							"key": "",
-							"value": "",
-							"disabled": true
+				{
+					"name": "Login (Bank Manger - manager)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"manager@manager.com\",\r\n    \"password\" : \"manager\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/login/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"login",
+								""
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "Login ( SELLER - Sazin )",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"s@s1.com\",\r\n    \"password\": \"sazin123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/login/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login (SELLER- YUSUF)",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"yusuf@s1.com\",\r\n    \"password\": \"sazin123\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/login/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login (Customer - Raihan)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"raihan@raihan.com\",\r\n    \"password\" : \"raihan\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/login/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"shoumik@shoumik.com\",\r\n    \"username\": \"shoumik\",\r\n    \"password\" : \"shoumik\",\r\n    \"role\" : \"4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/register/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"register",
+								""
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login (Customer - Shoumik)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"shoumik@shoumik.com\",\r\n    \"password\" : \"shoumik\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/login/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Login2",
+			"name": "New Request",
 			"request": {
 				"method": "GET",
 				"header": []
