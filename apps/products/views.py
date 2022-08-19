@@ -1,32 +1,38 @@
+
 from rest_framework.response import Response
-from rest_framework import views
+from rest_framework.views import APIView
 from rest_framework import generics
 
-from apps.products.models import Category
-from apps.products.serializers import CategorySerializer
+from django_filters.rest_framework import DjangoFilterBackend
 
-# class CategoryList(views.APIView):
-#     def get(self, request):
-#         queryset = Category.objects.all()
-#         serializer = CategorySerializer(queryset, many=True)
-#         return Response(serializer.data)
+from config.paginations import PagePagination
+from apps.products.models import Category, ProductInventory
+from apps.products.serializers import (CategorySerializer,
+                                      ProductInventorySerializer)
 
 
-class CategoryList(generics.GenericAPIView):
+class CategoryFilteredListCreateAPI(generics.ListCreateAPIView):
+    queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    pagination_class = PagePagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['id', 'name', 'slug']
+    
 
-    def get(self, request, *args, **kwargs):
-        root_nodes = Category.objects.all().get_cached_trees()
+class CategoryReadDeleteUpdateAPI(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    
 
-        data = []
-        for n in root_nodes:
-            data.append(self.recursive_node_to_dict(n))
+class ProductFilteredListCreateAPI(generics.ListCreateAPIView):
+    queryset = ProductInventory.objects.all()
+    serializer_class = ProductInventorySerializer
+    pagination_class = PagePagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['id' , 'store', 'price', 'is_active','created_at',
+                        'updated_at']
 
-        return Response(data)
 
-    def recursive_node_to_dict(self, node):
-        result = self.get_serializer(instance=node).data
-        children = [self.recursive_node_to_dict(c) for c in node.get_children()]
-        if children:
-            result["children"] = children
-        return result
+class ProductReadDeleteUpdateAPI(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ProductInventory.objects.all()
+    serializer_class = ProductInventorySerializer

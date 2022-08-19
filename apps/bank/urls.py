@@ -7,6 +7,7 @@ from .views import (BankAccountCreateAPI,BankAccountUpdateAPI,
                     SendMoneyToAccountRequestAPI,
                     TransactionSingleAPI,
                     TransactionListAPI,
+                    TransactionFilterAPI,
                     ApproveCashInRequestAPI,
                     ApproveSendMoneyRequestAPI)
 
@@ -22,6 +23,7 @@ urlpatterns = [
 
     path('single-transaction/', TransactionSingleAPI.as_view(), name="single-transaction"),
     path('list-transaction/', TransactionListAPI.as_view(), name="list_transaction"),
+    path('filter-transaction/', TransactionFilterAPI.as_view(), name="filter_transaction"),
     path('add-money-request/', AddMoneyToAccountRequestAPI.as_view(), name="add_money"),
     path('send-money-request/', SendMoneyToAccountRequestAPI.as_view(), name="send_money"),
     path('approve-cash-in-request/<int:transaction_id>', ApproveCashInRequestAPI.as_view(), name="approve_cash_in_request"),

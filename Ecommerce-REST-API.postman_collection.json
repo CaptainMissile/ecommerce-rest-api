@@ -205,8 +205,20 @@
 				{
 					"name": "List Store",
 					"request": {
-						"method": "GET",
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"yusuf@s1.com\",\r\n    \"password\": \"sazin123\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "http://localhost:8000/api/store/list-store/",
 							"protocol": "http",
@@ -318,16 +330,65 @@
 				{
 					"name": "Bank Account Update",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwNzUzMDg3LCJpYXQiOjE2NjA3Mzg2ODcsImp0aSI6IjRhNzI2OTFlZDM5ZDQ4NDNhODU1NzQ0ZjI2YTQzZWY5IiwidXNlcl9pZCI6MjV9.dfCvxpKgAUzXZF3Crpq0imKhZZpRTACEPpP9b8ppnX0",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n    \"credential\" : \"111credential111\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/bank/update-account/10001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"bank",
+								"update-account",
+								"10001"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Bank Account Delete",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwNzUzMDg3LCJpYXQiOjE2NjA3Mzg2ODcsImp0aSI6IjRhNzI2OTFlZDM5ZDQ4NDNhODU1NzQ0ZjI2YTQzZWY5IiwidXNlcl9pZCI6MjV9.dfCvxpKgAUzXZF3Crpq0imKhZZpRTACEPpP9b8ppnX0",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/bank/delete-account/10001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"bank",
+								"delete-account",
+								"10001"
+							]
+						}
 					},
 					"response": []
 				},
@@ -360,7 +421,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"account_to\" : \"10002\",\r\n    \"amount\" : \"1000\"\r\n}",
+							"raw": "{\r\n    \"account_to\" : \"10006\",\r\n    \"amount\" : \"10000\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -423,7 +484,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwODUyMzMyLCJpYXQiOjE2NjA4Mzc5MzIsImp0aSI6IjEzOWQ3ZWFmZjg3MzQ4YWY4MjAwNDc1Nzk5YWU0NTc5IiwidXNlcl9pZCI6MjV9.rehpVDfHgaNuq8MOiDKbwYSeYJYc2PbLcMvH8b2Ywg0",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwODUyNDI1LCJpYXQiOjE2NjA4MzgwMjUsImp0aSI6IjFlMTIxZGZjM2M1ZTRiOTM5MjM5NTE4OGZlZDk3ZjEyIiwidXNlcl9pZCI6Mjd9.pe3WH0Q8Svkl5ZZIFJFzbmKvY21574xNayYtEMpFVYI",
 									"type": "string"
 								}
 							]
@@ -431,7 +492,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/api/bank/approve-cash-in-request/1",
+							"raw": "http://localhost:8000/api/bank/approve-cash-in-request/9",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -441,7 +502,7 @@
 								"api",
 								"bank",
 								"approve-cash-in-request",
-								"1"
+								"9"
 							]
 						}
 					},
@@ -451,7 +512,20 @@
 					"name": "Send Money Approval",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/api/bank/approve-send-money-request/8",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"bank",
+								"approve-send-money-request",
+								"8"
+							]
+						}
 					},
 					"response": []
 				},
@@ -459,7 +533,21 @@
 					"name": "Single Transaction",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/bank/single-transaction/1001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"bank",
+								"single-transaction",
+								"1001"
+							]
+						}
 					},
 					"response": []
 				},
@@ -480,6 +568,34 @@
 								"bank",
 								"list-transaction",
 								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Transaction",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/bank/filter-transaction/?is_approved=false",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"bank",
+								"filter-transaction",
+								""
+							],
+							"query": [
+								{
+									"key": "is_approved",
+									"value": "false"
+								}
 							]
 						}
 					},
@@ -738,12 +854,214 @@
 			]
 		},
 		{
-			"name": "New Request",
-			"request": {
-				"method": "GET",
-				"header": []
-			},
-			"response": []
+			"name": "Product",
+			"item": [
+				{
+					"name": "Category List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/products/category/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"products",
+								"category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Single Category Read",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/products/category/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"products",
+								"category",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Category Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Book of Pirate\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/products/category/1/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"products",
+								"category",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Single Category Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/products/category/1/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"products",
+								"category",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"accesroies\",\r\n    \"slug\" : \"computer\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/products/category/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"products",
+								"category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Product List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/products/product/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"products",
+								"product",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Product Single",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/products/product/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"products",
+								"product",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Product Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"RAM\",\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/products/product/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"products",
+								"product",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

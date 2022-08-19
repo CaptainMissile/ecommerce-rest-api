@@ -7,6 +7,8 @@ from rest_framework.views import APIView, Response
 from rest_framework.generics import ListAPIView
 from rest_framework import status
 
+from django_filters.rest_framework import DjangoFilterBackend
+
 from config.paginations import PagePagination
 from apps.bank.permissions import (IsBankAccountOwnerOrManager,
                             IsBankManager)
@@ -72,6 +74,7 @@ class BankAccountUpdateAPI(APIView):
             return Response({'msg': 'Bank Account Info Updated'}, status = status.HTTP_200_OK)
     
         return Response({'error':'You are not authorized to make this change'}, status = status.HTTP_400_BAD_REQUEST)
+
 
 
 
@@ -157,6 +160,14 @@ class TransactionListAPI(ListAPIView):
         serializer_class = TransactionSerializer
         pagination_class = PagePagination
 
+
+class TransactionFilterAPI(ListAPIView):
+    permission_classes = [IsAuthenticated,IsBankManager]
+    queryset = Transaction.objects.all().order_by('-created_at')
+    serializer_class = TransactionSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['id', 'account_from', 'account_to','status', 'type',
+                        'created_at', 'is_approved', 'approved_by']
 
 
 class ApproveCashInRequestAPI(APIView):

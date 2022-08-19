@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     # EXTERNAL APP
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
+    'django_filters',
 
     # CREATED APPS
     'apps.accounts',
