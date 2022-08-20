@@ -11,6 +11,7 @@ from .views import (BankAccountCreateAPI,BankAccountUpdateAPI,
                     ApproveCashInRequestAPI,
                     ApproveSendMoneyRequestAPI)
 
+
 app_name = 'bank'
 
 urlpatterns = [

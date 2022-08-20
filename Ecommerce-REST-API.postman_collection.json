@@ -204,11 +204,14 @@
 				},
 				{
 					"name": "List Store",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"auth": {
 							"type": "noauth"
 						},
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -576,10 +579,20 @@
 				{
 					"name": "Filter Transaction",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMDA1MzQyLCJpYXQiOjE2NjA5OTA5NDIsImp0aSI6ImIzZWRmZDNkZTc1NzQ3NzZhYmI4YTI0NGFlMWE3MTUyIiwidXNlcl9pZCI6Mjd9.rni0HXe-cZ-_kGtcyhYEVubM0AUe8UJVhkQGyLSoXKo",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/api/bank/filter-transaction/?is_approved=false",
+							"raw": "http://localhost:8000/api/bank/filter-transaction/?is_approved=true",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -594,7 +607,7 @@
 							"query": [
 								{
 									"key": "is_approved",
-									"value": "false"
+									"value": "true"
 								}
 							]
 						}
@@ -606,6 +619,50 @@
 		{
 			"name": "Auth",
 			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"shoumik@shoumik.com\",\r\n    \"username\": \"shoumik\",\r\n    \"password\" : \"shoumik\",\r\n    \"role\" : \"4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/register/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"register",
+								""
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "Login ( ADMIN - admin)",
 					"request": {
@@ -777,50 +834,6 @@
 					"response": []
 				},
 				{
-					"name": "Register",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "default"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\" : \"shoumik@shoumik.com\",\r\n    \"username\": \"shoumik\",\r\n    \"password\" : \"shoumik\",\r\n    \"role\" : \"4\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8000/api/auth/register/",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"auth",
-								"register",
-								""
-							],
-							"query": [
-								{
-									"key": "",
-									"value": "",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Login (Customer - Shoumik)",
 					"request": {
 						"method": "POST",
@@ -903,11 +916,21 @@
 				{
 					"name": "Category Update",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwOTgzNzE2LCJpYXQiOjE2NjA5NjkzMTYsImp0aSI6ImJlNjk0OGIyMjdlYzQyMWY5YjAxMzNlZWY2ZjQxMzhiIiwidXNlcl9pZCI6MX0.sMkS87MihgZ9f23XlroyH6dUPO48eGhrzm4J1kJC91Y",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\" : \"Book of Pirate\"\r\n}",
+							"raw": "{\r\n    \"name\" : \"Book of Barbarossa\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -915,7 +938,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/products/category/1/",
+							"raw": "http://localhost:8000/api/products/category/2/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -925,7 +948,7 @@
 								"api",
 								"products",
 								"category",
-								"1",
+								"2",
 								""
 							]
 						}
@@ -958,11 +981,21 @@
 				{
 					"name": "Create Category",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwOTgzMjM2LCJpYXQiOjE2NjA5Njg4MzYsImp0aSI6ImFiMzEyNGYxZTQ0ZjRmM2JhYjc0YWMzNjFmNTA5NmNhIiwidXNlcl9pZCI6MjV9.fMlX6ucoXo_r46uEs5JsAsVHFoiMrzvE4mDPw9HIW2w",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\" : \"accesroies\",\r\n    \"slug\" : \"computer\"\r\n}",
+							"raw": "{\r\n    \"name\" : \"Motherboard\",\r\n    \"slug\" : \"board\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -992,7 +1025,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/api/products/product/",
+							"raw": "http://localhost:8000/api/products/product/?is_active=true",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1003,6 +1036,12 @@
 								"products",
 								"product",
 								""
+							],
+							"query": [
+								{
+									"key": "is_active",
+									"value": "true"
+								}
 							]
 						}
 					},
@@ -1037,7 +1076,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"RAM\",\r\n}",
+							"raw": "{\r\n    \"name\": \"RAM\",\r\n    \"category\" : \"2\",\r\n    \"is_active\": \"true\",\r\n    \"price\" : \"3000\",\r\n    \"units\" : \"30\",\r\n    \"units_sold\" : \"2\",\r\n    \"store\" : \"9\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1055,6 +1094,48 @@
 								"api",
 								"products",
 								"product",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Product Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMDM4ODUyLCJpYXQiOjE2NjEwMjQ0NTIsImp0aSI6IjBjYmM0MGRiOWM0NTRhMTU4NGVkMDFkZDFhM2FkMjcyIiwidXNlcl9pZCI6MjV9.gSpPItd-CIFnJEyTseVm9PMaPp3BQ7ld1UkDIGPrWHw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Life of a electroonia\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/products/product/1/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"products",
+								"product",
+								"1",
 								""
 							]
 						}

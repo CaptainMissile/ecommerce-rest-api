@@ -1,13 +1,12 @@
-from ast import Raise
-from logging import raiseExceptions
-from typing import List
 from rest_framework.permissions import (IsAuthenticated,
                                         IsAuthenticatedOrReadOnly)
 from rest_framework.views import APIView, Response
+from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
+import django_filters
 
 from config.paginations import PagePagination
 from apps.bank.permissions import (IsBankAccountOwnerOrManager,
@@ -161,13 +160,28 @@ class TransactionListAPI(ListAPIView):
         pagination_class = PagePagination
 
 
+# class TransactionFilter(django_filters.FilterSet):
+#     account_from = django_filters.ModelChoiceFilter(field_name="account_from__account_no",
+#                                             queryset=BankAccount.objects.all())
+
+#     # account_to = django_filters.ModelChoiceFilter(field_name="account_to__account_no",
+#     #                                         queryset=BankAccount.objects.all())
+#     class Meta:
+#         model = Transaction
+#         fields = ('id', 'account_from', 'account_to','status', 'type',
+#                          'created_at', 'is_approved', 'approved_by')
+
+
 class TransactionFilterAPI(ListAPIView):
+    account_from = BankAccountSerializer
     permission_classes = [IsAuthenticated,IsBankManager]
     queryset = Transaction.objects.all().order_by('-created_at')
     serializer_class = TransactionSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['id', 'account_from', 'account_to','status', 'type',
-                        'created_at', 'is_approved', 'approved_by']
+    pagination_class = PagePagination
+    filterset_fields = ('id', 'account_from__account_no', 'account_to__account_no','status', 'type',
+                        'created_at', 'is_approved', 'approved_by')
+
 
 
 class ApproveCashInRequestAPI(APIView):
