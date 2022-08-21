@@ -667,10 +667,22 @@
 					"name": "Login ( ADMIN - admin)",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "default",
+								"disabled": true
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\" : \"admin@admin.com\",\r\n    \"password\": \"admin\" \r\n}",
+							"raw": "{\r\n    \"email\": \"admin@admin.com\",\r\n    \"password\": \"admin\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1025,7 +1037,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/api/products/product/?is_active=true",
+							"raw": "http://localhost:8000/api/products/product/?id=4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1039,8 +1051,8 @@
 							],
 							"query": [
 								{
-									"key": "is_active",
-									"value": "true"
+									"key": "id",
+									"value": "4"
 								}
 							]
 						}
@@ -1049,11 +1061,23 @@
 				},
 				{
 					"name": "Product Single",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Life of a electroong\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "http://localhost:8000/api/products/product/1",
+							"raw": "http://localhost:8000/api/products/product/1/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1063,7 +1087,8 @@
 								"api",
 								"products",
 								"product",
-								"1"
+								"1",
+								""
 							]
 						}
 					},
@@ -1108,7 +1133,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMDM4ODUyLCJpYXQiOjE2NjEwMjQ0NTIsImp0aSI6IjBjYmM0MGRiOWM0NTRhMTU4NGVkMDFkZDFhM2FkMjcyIiwidXNlcl9pZCI6MjV9.gSpPItd-CIFnJEyTseVm9PMaPp3BQ7ld1UkDIGPrWHw",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMDkwMTgzLCJpYXQiOjE2NjEwNzU3ODMsImp0aSI6ImY2MzZiMDU1MzYzZDRiNGJhMmY5ODIwMGViZWM0NjIzIiwidXNlcl9pZCI6MjV9.8Xnly8gaHAcw-zimK3o1IlVmW1lnKHtQX-KekL1nP6k",
 									"type": "string"
 								}
 							]
@@ -1117,7 +1142,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\" : \"Life of a electroonia\"\r\n}",
+							"raw": "{\r\n    \"name\" : \"Life of a electroonia\",\r\n    \"price\" : \"50000\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1136,6 +1161,148 @@
 								"products",
 								"product",
 								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "Add And Update To Cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMTIwMzY4LCJpYXQiOjE2NjExMDU5NjgsImp0aSI6IjczYmIxM2VjMzhlNDRhMGJhNjA5NWI3MGEzZDQ4NjExIiwidXNlcl9pZCI6MjZ9.DTE9mOFuhUslGkZV2KB7wqzT1Ga1TfeQ9oXzpjyoISM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n    {\r\n        \"product\": 4,\r\n        \"quantity\": 999\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/cart/add-update-to-cart/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"cart",
+								"add-update-to-cart",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Single Cart Item",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMTIwMzY4LCJpYXQiOjE2NjExMDU5NjgsImp0aSI6IjczYmIxM2VjMzhlNDRhMGJhNjA5NWI3MGEzZDQ4NjExIiwidXNlcl9pZCI6MjZ9.DTE9mOFuhUslGkZV2KB7wqzT1Ga1TfeQ9oXzpjyoISM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/cart/delete-cart/23",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"cart",
+								"delete-cart",
+								"23"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List All Cart Items",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMTIwMzY4LCJpYXQiOjE2NjExMDU5NjgsImp0aSI6IjczYmIxM2VjMzhlNDRhMGJhNjA5NWI3MGEzZDQ4NjExIiwidXNlcl9pZCI6MjZ9.DTE9mOFuhUslGkZV2KB7wqzT1Ga1TfeQ9oXzpjyoISM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/cart/list-cart/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"cart",
+								"list-cart",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete All Cart Items",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMTIwMzY4LCJpYXQiOjE2NjExMDU5NjgsImp0aSI6IjczYmIxM2VjMzhlNDRhMGJhNjA5NWI3MGEzZDQ4NjExIiwidXNlcl9pZCI6MjZ9.DTE9mOFuhUslGkZV2KB7wqzT1Ga1TfeQ9oXzpjyoISM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/cart/delete-cart/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"cart",
+								"delete-cart",
 								""
 							]
 						}

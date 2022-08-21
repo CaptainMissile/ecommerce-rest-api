@@ -3,11 +3,13 @@ from rest_framework import views
 from rest_framework.response import Response
 from rest_framework.permissions import (IsAuthenticated,
                                         IsAuthenticatedOrReadOnly)
+from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
+
 
 from config.paginations import PagePagination
 from apps.products.models import Category, ProductInventory
-from apps.products.permissions import (IsSeller, ReadOrIsAdmin,
+from apps.products.permissions import (ReadOrIsSeller, ReadOrIsAdmin,
                                         IsAllowedToChangeInventory)
 from apps.products import serializers
 
@@ -29,7 +31,7 @@ class CategoryReadDeleteUpdateAPI(generics.RetrieveUpdateDestroyAPIView):
     
 
 class ProductFilteredListCreateAPI(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated, IsSeller]
+    permission_classes = [ReadOrIsSeller]
     serializer_class = serializers.ProductInventorySerializer
     pagination_class = PagePagination
     
@@ -69,15 +71,26 @@ class ProductReadDeleteUpdateAPI(views.APIView):
     def get(self, request, id):
         product = ProductInventory.objects.get(id = id)
         self.check_object_permissions(request, product) 
-        return Response({'msg' : 'Thansk'})
+        serializer = serializers.ProductInventorySerializer(product)
+        return Response(serializer.data,
+                        status = status.HTTP_200_OK)
 
     def delete(self, request, id):
         product = ProductInventory.objects.get(id = id)
-        self.check_object_permissions(request, product) 
-        return Response({'msg' : 'Thansk'})
+        self.check_object_permissions(request, product)
+        product.delete() 
+
+        return Response({'msg' : 'Successfully Deleted!'},
+                        status = status.HTTP_200_OK)
 
 
     def patch(self, request, id):
         product = ProductInventory.objects.get(id = id)
-        self.check_object_permissions(request, product) 
-        return Response({'msg' : 'Thansk'})
+        self.check_object_permissions(request, product)
+        serializer = serializers.ProductInventorySerializer(instance = product,
+                                                data = request.data, partial=True)
+
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+
+        return Response(serializer.data, status = status.HTTP_200_OK)

@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     'apps.bank',
     'apps.store',
     'apps.products',
+    'apps.cart',
     'apps.orders',
     'apps.payments',
 

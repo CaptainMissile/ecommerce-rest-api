@@ -9,6 +9,7 @@ urlpatterns = [
     path('api/auth/', include('apps.accounts.urls', namespace= 'accounts')),
     path('api/store/', include('apps.store.urls', namespace= 'store')),
     path('api/products/', include('apps.products.urls', namespace= 'products')),
+    path('api/cart/', include('apps.cart.urls', namespace= 'cart')),
     path('api/bank/', include('apps.bank.urls', namespace= 'bank'))
 ]
 
