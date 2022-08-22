@@ -12,7 +12,7 @@ from apps.products.models import ProductInventory
 from apps.products.permissions import (ReadOrIsSeller, ReadOrIsAdmin,
                                         IsAllowedToChangeInventory)
 from apps.cart import serializers
-
+from apps.cart import utils
 
 class CartFilteredListAPI(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
@@ -30,15 +30,9 @@ class CartFilteredListAPI(generics.ListAPIView):
         return carts
     
 
+
 class AddAndUpdateToCartAPI(views.APIView):
     permission_classes = [IsAuthenticated]
-
-    def  _check_exists(self, data, cart_items):
-        for item in cart_items:
-            if data['product'] == item.product.id:
-                return {'does_exist' :True, 'item':item}
-        
-        return{'does_exist' : False, 'item': None}
 
     def post(self, request):
         cart_items = CartItem.objects.filter(user__id = request.user.id)
@@ -47,38 +41,41 @@ class AddAndUpdateToCartAPI(views.APIView):
         if isinstance(cart_data, list):
             for data in cart_data:
                 data['user'] = request.user.id
-                check = self._check_exists(data, cart_items)
+                check = utils.check_existence(data, cart_items)
 
                 if check['does_exist']:
                     if data['quantity'] <= 0:
                         check['item'].delete()
                     else:
-                        serializer = serializers.CartItemSerializer(instance=check['item'],
-                                                data = data, partial=True)
+                        if utils.units_gt_quantity(data, check['item']):
+                            serializer = serializers.CartItemSerializer(instance=check['item'],
+                                                    data = data, partial=True)
                         
-                        if serializer.is_valid(raise_exception=True):
-                            serializer.save()
+                            if serializer.is_valid(raise_exception=True):
+                                serializer.save()
                 else:
-                    if data['quantity'] > 0:
+                    if data['quantity'] > 0 and utils.units_gt_quantity(data, check['item']):
                         serializer = serializers.CartItemSerializer(data = data)
 
                         if serializer.is_valid(raise_exception=True):
                             serializer.save()
                 
         elif isinstance(cart_data, dict):
-                check = self._check_exists(cart_data, cart_items)
-                cart_data['user'] = request.user.id
+                check = utils.check_existence(cart_data, cart_items)
+                data['user'] = request.user.id
 
                 if check['does_exist']:
-                    if cart_data['quantity'] <= 0:
+                    if data['quantity'] <= 0:
                         check['item'].delete()
 
-                    serializer = serializers.CartItemSerializer(instance=check['item'],
-                                                data = cart_data, partial=True)
-                    if serializer.is_valid(raise_exception=True):
-                        serializer.save()
+                    else:
+                        if utils.units_gt_quantity(data, check['item']):
+                            serializer = serializers.CartItemSerializer(instance=check['item'],
+                                                    data = cart_data, partial=True)
+                            if serializer.is_valid(raise_exception=True):
+                                serializer.save()
                 else:
-                    if cart_data['quantity'] > 0:
+                    if cart_data['quantity'] > 0 and utils.units_gt_quantity(data, check['item']):
                         serializer = serializers.CartItemSerializer(data = cart_data)
 
                         if serializer.is_valid(raise_exception=True):
