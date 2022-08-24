@@ -125,7 +125,7 @@ class AddMoneyToAccountRequestAPI(APIView):
             return Response({'msg': 'Money Added Request Sent Successfully.'},
                             status = status.HTTP_200_OK)
         
-        return Response({"error" : "Money Add Request Can't be sent!"})
+        return Response({"error" : "Add Money Request Can't be sent!"})
 
 
 class SendMoneyToAccountRequestAPI(APIView):
@@ -137,7 +137,7 @@ class SendMoneyToAccountRequestAPI(APIView):
             return Response({'msg': 'Send Money Request Sent Successfully.'},
                             status = status.HTTP_200_OK)
         
-        return Response({"error" : "Money Add Request Can't be sent!"})
+        return Response({"error" : "Send Money Request Can't be sent!"})
 
 
 class TransactionSingleAPI(APIView):
