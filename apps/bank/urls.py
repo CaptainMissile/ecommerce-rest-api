@@ -25,8 +25,8 @@ urlpatterns = [
     path('single-transaction/', TransactionSingleAPI.as_view(), name="single-transaction"),
     path('list-transaction/', TransactionListAPI.as_view(), name="list_transaction"),
     path('filter-transaction/', TransactionFilterAPI.as_view(), name="filter_transaction"),
-    path('add-money-request/', AddMoneyToAccountRequestAPI.as_view(), name="add_money"),
-    path('send-money-request/', SendMoneyToAccountRequestAPI.as_view(), name="send_money"),
+    path('add-money-request/', AddMoneyToAccountRequestAPI.as_view(), name="add_money_request"),
+    path('send-money-request/', SendMoneyToAccountRequestAPI.as_view(), name="send_money_request"),
     path('approve-cash-in-request/<int:transaction_id>', ApproveCashInRequestAPI.as_view(), name="approve_cash_in_request"),
     path('approve-send-money-request/<int:transaction_id>', ApproveSendMoneyRequestAPI.as_view(), name="approve_send_money_request")
 ]

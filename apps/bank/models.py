@@ -4,6 +4,7 @@ from django.conf import settings
 
 from apps.accounts.models import User
 
+
 class BankOption(models.Model):
     key = models.CharField(max_length=100, primary_key=True)
     value = models.PositiveBigIntegerField()
@@ -31,7 +32,6 @@ class Transaction(models.Model):
         ('I', 'Cash In'),
         ('S', 'Send To'),
     )
-
     account_from = models.ForeignKey(BankAccount, related_name='transaction_from', on_delete = models.PROTECT, blank=True, null=True)
     credential = models.CharField(max_length=100, blank=True, null=True)
 

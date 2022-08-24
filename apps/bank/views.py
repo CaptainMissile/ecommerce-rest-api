@@ -1,12 +1,15 @@
-from rest_framework.permissions import (IsAuthenticated,
-                                        IsAuthenticatedOrReadOnly)
+import requests
+
+from django.urls import reverse
+from django.contrib.sites.shortcuts import get_current_site
+
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView, Response
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
-import django_filters
 
 from config.paginations import PagePagination
 from apps.bank.permissions import (IsBankAccountOwnerOrManager,
@@ -130,11 +133,20 @@ class AddMoneyToAccountRequestAPI(APIView):
 
 class SendMoneyToAccountRequestAPI(APIView):
     def post(self, request):
+        print(request.data)
         serializer = SendMoneyRequestSerializer(data = request.data)
 
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response({'msg': 'Send Money Request Sent Successfully.'},
+            transaction= serializer.save()
+
+            current_site = get_current_site(request).domain
+            relative_link = reverse('bank:approve_send_money_request', args=[transaction.id])
+            abs_url = 'http://' + str(current_site) + relative_link
+
+            approve_send_money = requests.get(abs_url)
+
+            if approve_send_money.status_code == 200:
+                return Response(approve_send_money.json(),
                             status = status.HTTP_200_OK)
         
         return Response({"error" : "Send Money Request Can't be sent!"})
