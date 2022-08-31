@@ -12,16 +12,15 @@ from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 
 from config.paginations import PagePagination
-from apps.bank.permissions import (IsBankAccountOwnerOrManager,
-                            IsBankManager)
-from apps.bank.serializers import (BankAccountSerializer,
-                                   BankAccountUpdateSerializer,
-                                   AddMoneyRequestSerializer,
-                                   SendMoneyRequestSerializer,
-                                   TransactionSerializer)
-
-from apps.bank.models import BankOption, BankAccount, Transaction
+from .models import BankOption, BankAccount, Transaction
 from apps.accounts.models import Profile
+from .permissions import (IsBankAccountOwnerOrManager,
+                          IsBankManager)
+from .serializers import (BankAccountSerializer,
+                          BankAccountUpdateSerializer,
+                          AddMoneyRequestSerializer,
+                          SendMoneyRequestSerializer,
+                          TransactionSerializer)
 
 # Create your views here.
 class BankAccountCreateAPI(APIView):

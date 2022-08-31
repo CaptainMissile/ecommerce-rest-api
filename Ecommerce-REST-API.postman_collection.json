@@ -875,6 +875,14 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Password Reset Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			]
 		},
@@ -1180,7 +1188,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMTIwMzY4LCJpYXQiOjE2NjExMDU5NjgsImp0aSI6IjczYmIxM2VjMzhlNDRhMGJhNjA5NWI3MGEzZDQ4NjExIiwidXNlcl9pZCI6MjZ9.DTE9mOFuhUslGkZV2KB7wqzT1Ga1TfeQ9oXzpjyoISM",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMzQzNDA5LCJpYXQiOjE2NjEzMjkwMDksImp0aSI6ImMzZGU2ODFmYjg0YTQ1YzliMDQ2NWZlYWQ3OTE2MzgzIiwidXNlcl9pZCI6Mjh9.LSjZ-fqLNL4tsZcHbvdP4ccebmrSG2NXkBqNt970t-g",
 									"type": "string"
 								}
 							]
@@ -1189,7 +1197,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "\r\n    {\r\n        \"product\": 4,\r\n        \"quantity\": 999\r\n    }",
+							"raw": "\r\n    {\r\n        \"product\": 2,\r\n        \"quantity\":50000\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1253,7 +1261,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMTIwMzY4LCJpYXQiOjE2NjExMDU5NjgsImp0aSI6IjczYmIxM2VjMzhlNDRhMGJhNjA5NWI3MGEzZDQ4NjExIiwidXNlcl9pZCI6MjZ9.DTE9mOFuhUslGkZV2KB7wqzT1Ga1TfeQ9oXzpjyoISM",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMzQzNDA5LCJpYXQiOjE2NjEzMjkwMDksImp0aSI6ImMzZGU2ODFmYjg0YTQ1YzliMDQ2NWZlYWQ3OTE2MzgzIiwidXNlcl9pZCI6Mjh9.LSjZ-fqLNL4tsZcHbvdP4ccebmrSG2NXkBqNt970t-g",
 									"type": "string"
 								}
 							]
@@ -1303,6 +1311,236 @@
 								"api",
 								"cart",
 								"delete-cart",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Place Order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMzQzNDA5LCJpYXQiOjE2NjEzMjkwMDksImp0aSI6ImMzZGU2ODFmYjg0YTQ1YzliMDQ2NWZlYWQ3OTE2MzgzIiwidXNlcl9pZCI6Mjh9.LSjZ-fqLNL4tsZcHbvdP4ccebmrSG2NXkBqNt970t-g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"full_name\": \"M. Ebrahim Sazin\",\r\n    \"address\": \"Dhaka, Bangladesh\",\r\n    \"city\": \"Dhaka\",\r\n    \"phone\": \"01746659595\",\r\n    \"post_code\": \"3400\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/orders/place-the-order/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"orders",
+								"place-the-order",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Track Order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMzgyMzM5LCJpYXQiOjE2NjEzNjc5MzksImp0aSI6IjA5MjU2NzBjNjBiYjRiNjNhYmYxNjljNDBhZWFmZjk1IiwidXNlcl9pZCI6Mjl9.GeaDU-YO2kETorE6y5WrrBu0GKZ2lL2eJ2yT-UTCqo0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/orders/track-order/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"orders",
+								"track-order",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order Item List",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMzc4MjkwLCJpYXQiOjE2NjEzNjM4OTAsImp0aSI6ImY0Njg4YzkzZTI3ZTQ1OGQ4NzM2Nzg5YmNlOGE3MDQ1IiwidXNlcl9pZCI6Mjh9.AEY4YYkvbZrkfBbKyQ_TaDf3dBeBdjJmctDM4nmOc8c",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/orders/order-item-list/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"orders",
+								"order-item-list",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Order List",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMzgyMzM5LCJpYXQiOjE2NjEzNjc5MzksImp0aSI6IjA5MjU2NzBjNjBiYjRiNjNhYmYxNjljNDBhZWFmZjk1IiwidXNlcl9pZCI6Mjl9.GeaDU-YO2kETorE6y5WrrBu0GKZ2lL2eJ2yT-UTCqo0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/orders/track-order/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"orders",
+								"track-order",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Order Status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMzgzNzY1LCJpYXQiOjE2NjEzNjkzNjUsImp0aSI6IjBhY2M2YmRmYjA1ODQ3Mjk5Mjk1N2U3NTAxMTU4ZGM4IiwidXNlcl9pZCI6MX0.8IexOHYc2oMrTKpBA06qdLR0XSkXNhHSC_Ldm6sp35Y",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"delivery_status\" : \"OR\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/orders/change-order-status/1/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"orders",
+								"change-order-status",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payment",
+			"item": [
+				{
+					"name": "Make Payment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMzc4MjkwLCJpYXQiOjE2NjEzNjM4OTAsImp0aSI6ImY0Njg4YzkzZTI3ZTQ1OGQ4NzM2Nzg5YmNlOGE3MDQ1IiwidXNlcl9pZCI6Mjh9.AEY4YYkvbZrkfBbKyQ_TaDf3dBeBdjJmctDM4nmOc8c",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"order_id\": 1,\r\n    \"credential\": \"hack\" ,\r\n    \"amount\" : 1500\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/payments/make-payment/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"payments",
+								"make-payment",
 								""
 							]
 						}
