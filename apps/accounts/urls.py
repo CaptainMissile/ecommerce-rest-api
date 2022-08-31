@@ -2,7 +2,7 @@ from django.urls import path
 
 from .views import (RegisterAPI, VerifyEmailAPI, LoginAPI, ProfileAPI,
                     PasswordResetReqAPI, PasswordTokenCheckAPI,
-                    SetNewPasswordAPIView)
+                    SetNewPasswordAPIView, ProfileUpdateAPI)
 
 app_name = 'accounts'
 
@@ -12,6 +12,7 @@ urlpatterns = [
     path('login/', LoginAPI.as_view(), name="login"),
     path('password-reset-req/', PasswordResetReqAPI.as_view(), name="password-reset-req"),
     path('password-reset-confirm/<uidb64>/<token>/', PasswordTokenCheckAPI.as_view(), name='password-reset-confirm'),
-    path('password-reset-complete', SetNewPasswordAPIView.as_view(),name='password-reset-complete'),
-    path('profile/<str:username>', ProfileAPI.as_view(), name="profile")
+    path('password-reset-complete/', SetNewPasswordAPIView.as_view(),name='password-reset-complete'),
+    path('profile/<str:username>', ProfileAPI.as_view(), name="profile"),
+    path('profile-update/<str:username>', ProfileUpdateAPI.as_view(), name="profile-update")
 ]

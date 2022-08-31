@@ -22,7 +22,7 @@ urlpatterns = [
     path('list-account/', BankAccountListAPI.as_view(), name="list-account"),
 
 
-    path('single-transaction/', TransactionSingleAPI.as_view(), name="single-transaction"),
+    path('single-transaction/<int:transaction_id>', TransactionSingleAPI.as_view(), name="single-transaction"),
     path('list-transaction/', TransactionListAPI.as_view(), name="list_transaction"),
     path('filter-transaction/', TransactionFilterAPI.as_view(), name="filter_transaction"),
     path('add-money-request/', AddMoneyToAccountRequestAPI.as_view(), name="add_money_request"),

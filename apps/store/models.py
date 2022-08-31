@@ -5,9 +5,9 @@ from django.conf import settings
 class Store(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True,
                                 on_delete=models.SET_NULL)
-    name = models.CharField(max_length = 50)
+    name = models.CharField(max_length = 50,  blank=True, null=True)
 
-    location = models.CharField(max_length = 50)
+    location = models.CharField(max_length = 50, blank=True, null=True)
     description = models.CharField(max_length = 50, blank=True, null=True)
 
     def __str__(self):

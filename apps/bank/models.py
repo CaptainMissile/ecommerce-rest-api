@@ -46,4 +46,4 @@ class Transaction(models.Model):
     approved_by = models.ForeignKey(settings.AUTH_USER_MODEL,null=True,blank=True, on_delete = models.PROTECT)
 
     def __str__(self):
-        return f'TYPE: {self.type} -- Amount:{self.amount}, (From: {self.account_from}, To: {self.account_to})'
+        return f'(ID: {self.id} From: {self.account_from}, To: {self.account_to})'

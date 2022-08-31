@@ -1,3 +1,4 @@
+from re import S
 import requests
 
 from django.urls import reverse
@@ -6,7 +7,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView, Response
 from rest_framework import viewsets
-from rest_framework.generics import ListAPIView
+from rest_framework import generics
 from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
@@ -17,14 +18,19 @@ from apps.accounts.models import Profile
 from .permissions import (IsBankAccountOwnerOrManager,
                           IsBankManager)
 from .serializers import (BankAccountSerializer,
+                          BankAccountCreateSerializer_,
+                          BankAccountCreateSerializer,
                           BankAccountUpdateSerializer,
                           AddMoneyRequestSerializer,
+                          AddMoneyRequestSerializer_,
                           SendMoneyRequestSerializer,
+                          SendMoneyRequestSerializer_,
                           TransactionSerializer)
 
 # Create your views here.
-class BankAccountCreateAPI(APIView):
+class BankAccountCreateAPI(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = BankAccountCreateSerializer_
 
     def post(self, request):
         acc_obj = BankOption.objects.get(key= 'account_no')
@@ -35,13 +41,15 @@ class BankAccountCreateAPI(APIView):
         bank_account_data = request.data
         bank_account_data['account_no'] = acc_no
 
-        serializer = BankAccountSerializer(data = bank_account_data)
+        serializer = BankAccountCreateSerializer(data = bank_account_data)
 
         if serializer.is_valid(raise_exception=True):
             serializer.save()
+            
             msg = "Bank Account Created"
             try:
                 profile = Profile.objects.get(user = request.user.id)
+
                 profile.bank_account = acc_no
                 profile.save()
 
@@ -49,13 +57,15 @@ class BankAccountCreateAPI(APIView):
             except:
                 msg += " And No Profile Updated!"
             
-            return Response({'msg': msg}, status= status.HTTP_201_CREATED)
+            return Response(serializer.data, status= status.HTTP_201_CREATED)
 
         return Response({'error': 'Something Went wrong.Try again'})
 
 
-class BankAccountUpdateAPI(APIView):
+
+class BankAccountUpdateAPI(generics.GenericAPIView):
     permission_classes = [IsAuthenticated, IsBankAccountOwnerOrManager]
+    serializer_class = BankAccountUpdateSerializer
 
     def put(self, request, account_no, format=None):
         try:
@@ -65,14 +75,14 @@ class BankAccountUpdateAPI(APIView):
 
         self.check_object_permissions(request, account_instance) 
 
-        serializer = BankAccountUpdateSerializer(
+        serializer = self.serializer_class(
                             instance= account_instance,
                             data = request.data,
                             partial=True)
 
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response({'msg': 'Bank Account Info Updated'}, status = status.HTTP_200_OK)
+            return Response(serializer.data , status = status.HTTP_200_OK)
     
         return Response({'error':'You are not authorized to make this change'}, status = status.HTTP_400_BAD_REQUEST)
 
@@ -104,7 +114,7 @@ class BankAccountSingleAPI(APIView):
 
     def get(self, request, account_no):
         try:
-            acc_instance = BankAccount.objects.get(id = account_no)
+            acc_instance = BankAccount.objects.get(account_no = account_no)
         except:
             return Response({'error':'Bank Account does not exist'}, status = status.HTTP_400_BAD_REQUEST)
 
@@ -112,25 +122,32 @@ class BankAccountSingleAPI(APIView):
         return Response(serializer.data, status= status.HTTP_200_OK)
 
 
-class BankAccountListAPI(ListAPIView):
+class BankAccountListAPI(generics.ListAPIView):
     permission_classes = [IsAuthenticated,IsBankManager]
     serializer_class = BankAccountSerializer
+    queryset = BankAccount.objects.all()
     pagination_class = PagePagination
 
 
-class AddMoneyToAccountRequestAPI(APIView):
+class AddMoneyToAccountRequestAPI(generics.GenericAPIView):
+    serializer_class = AddMoneyRequestSerializer_
+
     def post(self, request):
         serializer = AddMoneyRequestSerializer(data = request.data)
 
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response({'msg': 'Money Added Request Sent Successfully.'},
+            s = serializer.save()
+            return Response({'msg': 'Money Added Request Sent Successfully.',
+                            'transaction_id' : s.id},
                             status = status.HTTP_200_OK)
         
         return Response({"error" : "Add Money Request Can't be sent!"})
 
 
-class SendMoneyToAccountRequestAPI(APIView):
+
+class SendMoneyToAccountRequestAPI(generics.GenericAPIView):
+    serializer_class = SendMoneyRequestSerializer_
+
     def post(self, request):
         print(request.data)
         serializer = SendMoneyRequestSerializer(data = request.data)
@@ -145,13 +162,17 @@ class SendMoneyToAccountRequestAPI(APIView):
             approve_send_money = requests.get(abs_url)
 
             if approve_send_money.status_code == 200:
-                return Response(approve_send_money.json(),
+                return Response({'msg' : 'Send Money Approved Successfully',
+                                 'transaction_id' : transaction.id},
                             status = status.HTTP_200_OK)
         
-        return Response({"error" : "Send Money Request Can't be sent!"})
+        return Response({"error" : "Send Money Request Can't be sent!"},
+                         status = status.HTTP_400_BAD_REQUEST)
+
 
 
 class TransactionSingleAPI(APIView):
+    permission_classes = [IsAuthenticated, IsBankManager]
     def get(self,request, transaction_id):
         try:
             transaction = Transaction.objects.get(id = transaction_id)
@@ -163,27 +184,15 @@ class TransactionSingleAPI(APIView):
 
 
 
-
-class TransactionListAPI(ListAPIView):
+class TransactionListAPI(generics.ListAPIView):
         permission_classes = [IsAuthenticated,IsBankManager]
         queryset = Transaction.objects.all()
         serializer_class = TransactionSerializer
         pagination_class = PagePagination
 
 
-# class TransactionFilter(django_filters.FilterSet):
-#     account_from = django_filters.ModelChoiceFilter(field_name="account_from__account_no",
-#                                             queryset=BankAccount.objects.all())
 
-#     # account_to = django_filters.ModelChoiceFilter(field_name="account_to__account_no",
-#     #                                         queryset=BankAccount.objects.all())
-#     class Meta:
-#         model = Transaction
-#         fields = ('id', 'account_from', 'account_to','status', 'type',
-#                          'created_at', 'is_approved', 'approved_by')
-
-
-class TransactionFilterAPI(ListAPIView):
+class TransactionFilterAPI(generics.ListAPIView):
     account_from = BankAccountSerializer
     permission_classes = [IsAuthenticated,IsBankManager]
     queryset = Transaction.objects.all().order_by('-created_at')
@@ -213,7 +222,7 @@ class ApproveCashInRequestAPI(APIView):
                 transaction.save()
                 account_to.save()
             else:
-                return Response({'error' : 'Sorry Something Went Wrong!'},
+                return Response({'error' : 'Sorry Something Went Wronggjghjhjhjj!'},
                             status = status.HTTP_400_BAD_REQUEST)
         except:
             return Response({'error' : 'Sorry Something Went Wrong!'},

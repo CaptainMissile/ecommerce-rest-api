@@ -11,7 +11,7 @@ def check_existence_in_cart(data, cart_items):
 def quantity_lt_remaining_units(data):
     product = ProductInventory.objects.filter(id = data['product'])
 
-    if product.exists() and data['quantity'] <= product[0].units:
+    if product.exists() and int(data['quantity']) <= product[0].units:
         return True
     else:
         return False

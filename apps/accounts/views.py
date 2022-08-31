@@ -1,4 +1,5 @@
 import os
+from urllib import response
 import jwt
 
 from django.http import HttpResponsePermanentRedirect
@@ -13,6 +14,7 @@ from django.conf import settings
 
 from rest_framework.views import Response, APIView
 from rest_framework import generics, status, views
+from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.permissions import (IsAuthenticatedOrReadOnly,
                                         IsAuthenticated)
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -22,18 +24,20 @@ from drf_yasg import openapi
 
 from apps.accounts.models import User, Profile
 from apps.accounts.serializers import (RegisterSerializer, LoginSerializer,
-                                       ResetPasswordReqSerializer,
+                                       PasswordResetReqSerializer,
                                        SetNewPasswordSerializer,
+                                       ProfileUpdateSerializer,
                                        ProfileSerializer, LogoutSerializer,
                                        EmailVerificationSerializer,
                                        SetNewPasswordSerializer)
 
-from apps.accounts.permissions import IsVerified
+from apps.accounts.permissions import IsVerifiedLogin, IsVerified
 from apps.accounts.utils import Util
 
 
 class CustomRedirect(HttpResponsePermanentRedirect):
     allowed_schemes = [os.environ.get('APP_SCHEME'), 'http', 'https']
+
 
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
@@ -98,7 +102,7 @@ class VerifyEmailAPI(generics.GenericAPIView):
 
 
 class LoginAPI(generics.GenericAPIView):
-    permission_classes = [IsVerified]
+    permission_classes = [IsVerifiedLogin]
     serializer_class = LoginSerializer
 
     def post(self, request):
@@ -124,9 +128,12 @@ class LoginAPI(generics.GenericAPIView):
             }
 
 
-class PasswordResetReqAPI(APIView):
+
+class PasswordResetReqAPI(generics.GenericAPIView):
+    serializer_class = PasswordResetReqSerializer
+
     def post(self, request):
-        serializer = ResetPasswordReqSerializer(data=request.data)
+        serializer = self.serializer_class(data=request.data)
 
         email = request.data.get('email', '')
 
@@ -154,32 +161,21 @@ class PasswordTokenCheckAPI(APIView):
     serializer_class = SetNewPasswordSerializer
 
     def get(self, request, uidb64, token):
-
-        redirect_url = request.GET.get('redirect_url')
-        print(redirect_url)
         try:
             id = smart_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(id=id)
-
-            if not PasswordResetTokenGenerator().check_token(user, token):
-                if len(redirect_url) > 3:
-                    return CustomRedirect(redirect_url+'?token_valid=False')
-                else:
-                    return CustomRedirect(os.environ.get('FRONTEND_URL', '')+'?token_valid=False')
-
-            if redirect_url and len(redirect_url) > 3:
-                print('Hoep you are here')
-                return CustomRedirect(redirect_url+'/?token_valid=True&message=Credentials Valid&uidb64='+uidb64+'&token='+token)
+            print("Are you there bro? ")
+            if PasswordResetTokenGenerator().check_token(user, token):
+                print("Are you there bro? 1" )
+                return Response({ 'token_valid' : True, 'message' : 'Credentials Valid',
+                                'uidb64': uidb64, 'token': token},
+                                status = status.HTTP_202_ACCEPTED)
             else:
-                return CustomRedirect(os.environ.get('FRONTEND_URL', '')+'?token_valid=False')
-
-        except DjangoUnicodeDecodeError as identifier:
-            try:
-                if not PasswordResetTokenGenerator().check_token(user):
-                    return CustomRedirect(redirect_url+'?token_valid=False')
-                    
-            except UnboundLocalError as e:
+                print("Are you there bro? 2")
                 return Response({'error': 'Token is not valid, please request a new one'}, status=status.HTTP_400_BAD_REQUEST)
+        except:
+            print("Are you there bro? 3")
+            return Response({'error': 'Token is not valid, please request a new one'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class SetNewPasswordAPIView(generics.GenericAPIView):
@@ -187,7 +183,23 @@ class SetNewPasswordAPIView(generics.GenericAPIView):
 
     def patch(self, request):
         serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        user = serializer.is_valid(raise_exception=True)
+        
+        print(request.data)
+        password = request.data.get('password', '')
+        token = request.data.get('token', '')
+        uidb64 = request.data.get('uidb64', '')
+
+        id = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(id=id)
+
+        if PasswordResetTokenGenerator().check_token(user, token):
+            user.set_password(password)
+            user.save()
+        else:
+            raise AuthenticationFailed('The reset link is invalid', 401)
+
+
         return Response({'success': True, 'message': 'Password reset success'}, status=status.HTTP_200_OK)
 
 
@@ -204,26 +216,33 @@ class LogoutAPI(views.APIView):
 
 
 
-class ProfileAPI(views.APIView):
+class ProfileAPI(generics.GenericAPIView):
   permission_classes = [IsAuthenticatedOrReadOnly]
+  serializer_class = ProfileSerializer
 
   def get(self, request, username, format=None):
     profile = Profile.objects.filter(user__username = username)
 
-    serializer = ProfileSerializer(profile[0])
+    serializer = self.serializer_class(profile[0])
+
     return Response(serializer.data, status=status.HTTP_200_OK)
 
-  def put(self, request, username, format=None):
+
+class ProfileUpdateAPI(generics.GenericAPIView):
+  permission_classes = [IsAuthenticated, IsVerified]
+  serializer_class = ProfileUpdateSerializer
+
+  def patch(self, request, username, format=None):
     if request.user.username == username:
         profile_instance = Profile.objects.get(user__username = username)
 
-        serializer = ProfileSerializer(
+        serializer = self.serializer_class(
                             instance= profile_instance,
                             data = request.data,
                             partial=True)
 
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response({'msg': 'Profile Updated'}, status = status.HTTP_200_OK)
+            return Response(serializer.data, status = status.HTTP_200_OK)
     
     return Response({'error':'You are not authorized to make this change'}, status = status.HTTP_400_BAD_REQUEST)

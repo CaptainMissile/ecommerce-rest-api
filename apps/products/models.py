@@ -33,4 +33,4 @@ class ProductInventory(models.Model):
         verbose_name_plural = "Product Inventories"
     
     def __str__(self):
-        return self.name
+        return f'{self.id} - {self.name}'

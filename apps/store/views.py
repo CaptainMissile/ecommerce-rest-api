@@ -3,12 +3,13 @@ from django.conf import settings
 from rest_framework.permissions import (IsAuthenticated,
                                         IsAuthenticatedOrReadOnly)
 from rest_framework.views import APIView, Response
-from rest_framework.generics import ListAPIView
+from rest_framework import generics
 from rest_framework import status
 
 from config.paginations import PagePagination
 from apps.store.permissions import IsSeller, IsAuthenticatedStoreOwner
-from apps.store.serializers import StoreSerializer, StoreUpdateSerializer
+from apps.store.serializers import (StoreSerializer, StoreCreateSerializer,
+                                    StoreUpdateSerializer)
 from apps.store.models import Store
 # Create your views here.
 
@@ -19,8 +20,9 @@ from apps.store.models import Store
 # READ ALL THE STORE INFO
 # STORE INFO FILTERED BY OWNER OR PRODUCT OR CATEGORY OR STORE NAME
 
-class StoreCreateAPI(APIView):
+class StoreCreateAPI(generics.GenericAPIView):
     permission_classes = [IsAuthenticated, IsSeller]
+    serializer_class = StoreCreateSerializer
 
     def post(self, request):
         store_data = request.data
@@ -30,14 +32,15 @@ class StoreCreateAPI(APIView):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
 
-            return Response({'msg': 'Successfully Store Created'},
+            return Response( serializer.data,
                             status= status.HTTP_201_CREATED)
 
         return Response({'error': 'Something Went wrong.Try again'})
 
 
-class StoreUpdateAPI(APIView):
+class StoreUpdateAPI(generics.GenericAPIView):
     permission_classes = [IsAuthenticated, IsAuthenticatedStoreOwner]
+    serializer_class = StoreUpdateSerializer
 
     def put(self, request, store_id, format=None):
         try:
@@ -47,14 +50,14 @@ class StoreUpdateAPI(APIView):
 
         self.check_object_permissions(request, store_instance) 
 
-        serializer = StoreUpdateSerializer(
+        serializer = self.serializer_class(
                             instance= store_instance,
                             data = request.data,
                             partial=True)
 
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response({'msg': 'Store Info Updated'}, status = status.HTTP_200_OK)
+            return Response(serializer.data, status = status.HTTP_200_OK)
     
         return Response({'error':'You are not authorized to make this change'}, status = status.HTTP_400_BAD_REQUEST)
 
@@ -89,18 +92,8 @@ class StoreSingleAPI(APIView):
         return Response(serializer.data, status= status.HTTP_200_OK)
 
 
-class StoreListAPI(ListAPIView):
+class StoreListAPI(generics.ListAPIView):
     queryset = Store.objects.all()
     serializer_class = StoreSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     pagination_class = PagePagination
-
-
-
-class StoreFilteredListAPI(APIView):
-    '''FILTER WITH
-            1. OWNER
-            2. NAME
-    '''
-    def get(request):
-        pass

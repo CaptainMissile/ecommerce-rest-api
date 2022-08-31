@@ -1,7 +1,7 @@
 from django.db import transaction
 
 from rest_framework.response import Response
-from rest_framework import views
+from rest_framework import views, generics
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
@@ -14,7 +14,10 @@ from apps.orders.permissions import (IsAllowedToTrackOrder,
                                         IsAllowedToChangeOrderStatus)
 
 # Create your views here.
-class PlaceTheOrder(views.APIView):
+class PlaceTheOrder(generics.GenericAPIView):
+    serializer_class = serializers.PlaceOrderSerializer
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
         cart_items = CartItem.objects.filter(user__id = request.user.id)
         request.data['store'] = cart_items[0].product.store.id
@@ -97,8 +100,9 @@ class OrderItemList(views.APIView):
         return Response(serializer.data, status= status.HTTP_200_OK)
 
 
-class ChangeOrderStatus(views.APIView):
+class ChangeOrderStatus(generics.GenericAPIView):
     permission_classes = [IsAuthenticated, IsAllowedToChangeOrderStatus]
+    serializer_class = serializers.ChangeOrderSerializer
 
     def post(self,request,order_id):
         data = request.data

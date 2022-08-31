@@ -65,8 +65,9 @@ class ProductFilteredListCreateAPI(generics.ListCreateAPIView):
         return params_dict
 
 
-class ProductReadDeleteUpdateAPI(views.APIView):
+class ProductReadDeleteUpdateAPI(generics.GenericAPIView):
     permission_classes = [IsAllowedToChangeInventory]
+    serializer_class = serializers.ProductInventoryUpdateSerializer
 
     def get(self, request, id):
         product = ProductInventory.objects.get(id = id)

@@ -31,8 +31,9 @@ class CartFilteredListAPI(generics.ListAPIView):
     
 
 
-class AddAndUpdateToCartAPI(views.APIView):
+class AddAndUpdateToCartAPI(generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
+    serializer_class = serializers.CartItemSerializer
 
     def post(self, request):
         cart_items = CartItem.objects.filter(user__id = request.user.id)
@@ -44,7 +45,7 @@ class AddAndUpdateToCartAPI(views.APIView):
                 check = utils.check_existence_in_cart(data, cart_items)
 
                 if check['does_exist']:
-                    if data['quantity'] <= 0:
+                    if int(data['quantity']) <= 0:
                         check['item'].delete()
                     else:
                         if utils.quantity_lt_remaining_units(data):
@@ -54,7 +55,7 @@ class AddAndUpdateToCartAPI(views.APIView):
                             if serializer.is_valid(raise_exception=True):
                                 serializer.save()
                 else:
-                    if data['quantity'] > 0 and utils.quantity_lt_remaining_units(data):
+                    if int(data['quantity']) > 0 and utils.quantity_lt_remaining_units(data):
                         serializer = serializers.CartItemSerializer(data = data)
 
                         if serializer.is_valid(raise_exception=True):
@@ -65,17 +66,18 @@ class AddAndUpdateToCartAPI(views.APIView):
                 cart_data['user'] = request.user.id
 
                 if check['does_exist']:
-                    if cart_data['quantity'] <= 0:
+                    if int(cart_data['quantity']) <= 0:
                         check['item'].delete()
 
                     else:
                         if utils.quantity_lt_remaining_units(cart_data):
                             serializer = serializers.CartItemSerializer(instance=check['item'],
                                                     data = cart_data, partial=True)
+
                             if serializer.is_valid(raise_exception=True):
                                 serializer.save()
                 else:
-                    if cart_data['quantity'] > 0 and utils.quantity_lt_remaining_units(cart_data):
+                    if int(cart_data['quantity']) > 0 and utils.quantity_lt_remaining_units(cart_data):
                         serializer = serializers.CartItemSerializer(data = cart_data)
 
                         if serializer.is_valid(raise_exception=True):
