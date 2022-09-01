@@ -26,6 +26,9 @@ class MakePayment(generics.GenericAPIView):
 
         order = Order.objects.get(id = data['order_id'])
         store = Store.objects.get(id = order.store.id)
+        print("==================================")
+        print('user::::', request.user)
+        print('bank: ', user.profile.bank_account)
         account_from = data['account_from'] if data.get('account_from', '') != '' else user.profile.bank_account
 
         current_site = get_current_site(request).domain
@@ -39,9 +42,17 @@ class MakePayment(generics.GenericAPIView):
                 "account_to" : store.owner.profile.bank_account,
                 }
 
-        send_money = requests.post(abs_url, data=send_money_request_data)
-        print(send_money, "============================")
+        send_money= None
+        # print(type(data['amount']))
+        if float(data['amount']) == order.total_price:
+            send_money = requests.post(abs_url, data=send_money_request_data)
+        else:
+            return Response({'error': 'Payment Failure.Amounts dont match.',
+                             'order_id': order.id}, status = status.HTTP_400_BAD_REQUEST)         
+
         if send_money.status_code == 200:
+            order.billing_status = 'P'
+            order.save()
             return Response({'msg': 'Payment Successful. Track Your Order with Order ID',
                              'order_id': order.id}, status = status.HTTP_200_OK)
 

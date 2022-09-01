@@ -32,7 +32,7 @@ class PlaceTheOrder(generics.GenericAPIView):
 
             for item in cart_items:
                 product_inventory = ProductInventory.objects.get(id = item.product.id)
-
+                print(product_inventory.id,product_inventory.price)
                 if utils.cart_quantity_lt_remaining_units(item, product_inventory):
                     price = utils.calc_price(item, product_inventory)
 

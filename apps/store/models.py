@@ -11,4 +11,4 @@ class Store(models.Model):
     description = models.CharField(max_length = 50, blank=True, null=True)
 
     def __str__(self):
-        return 'Store: ' + self.name
+        return f'ID:{self.id} --- {self.name}'

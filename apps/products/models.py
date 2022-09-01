@@ -11,7 +11,7 @@ class Category(models.Model):
         verbose_name_plural = "Categories"
 
     def __str__(self):
-        return self.name
+        return f'ID:{self.id} - {self.name}'
 
 
 class ProductInventory(models.Model):
@@ -33,4 +33,4 @@ class ProductInventory(models.Model):
         verbose_name_plural = "Product Inventories"
     
     def __str__(self):
-        return f'{self.id} - {self.name}'
+        return f'ID:{self.id} - {self.name}'

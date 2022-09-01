@@ -1,6 +1,6 @@
-from re import S
 import requests
 
+from django.db import transaction as trs
 from django.urls import reverse
 from django.contrib.sites.shortcuts import get_current_site
 
@@ -243,26 +243,27 @@ class ApproveSendMoneyRequestAPI(APIView):
                 account_from = BankAccount.objects.get(account_no = transaction.account_from.account_no)
                 account_to = BankAccount.objects.get(account_no = transaction.account_to.account_no)
 
-                if transaction.credential == account_from.credential:
-                    if account_from.balance >= transaction.amount:
-                        cur_balance = account_from.balance - transaction.amount
-                        account_from.balance = cur_balance
+                with trs.atomic():
+                    if transaction.credential == account_from.credential:
+                        if account_from.balance >= transaction.amount:
+                            cur_balance = account_from.balance - transaction.amount
+                            account_from.balance = cur_balance
+                        else:
+                            return Response({"error" : "Your account balance is low."},
+                                            status= status.HTTP_400_BAD_REQUEST)
                     else:
-                        return Response({"error" : "Your account balance is low."},
-                                        status= status.HTTP_400_BAD_REQUEST)
-                else:
-                    return Response({"error" : "Credential does not match."},
-                                        status= status.HTTP_400_BAD_REQUEST)
+                        return Response({"error" : "Credential does not match."},
+                                            status= status.HTTP_400_BAD_REQUEST)
             
             
-                cur_balance =  account_to.balance + transaction.amount
-                account_to.balance = cur_balance
-                transaction.status = 'A'
-                transaction.is_approved = True
+                    cur_balance =  account_to.balance + transaction.amount
+                    account_to.balance = cur_balance
+                    transaction.status = 'A'
+                    transaction.is_approved = True
 
-                account_from.save()
-                transaction.save()
-                account_to.save()
+                    account_from.save()
+                    transaction.save()
+                    account_to.save()
             else:
                 return Response({"error" : "Something Went Wrong."},
                                         status= status.HTTP_400_BAD_REQUEST)
