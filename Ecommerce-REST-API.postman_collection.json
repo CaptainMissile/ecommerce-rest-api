@@ -6,22 +6,428 @@
 	},
 	"item": [
 		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"dark@star.com\",\r\n    \"username\": \"darkstar\",\r\n    \"password\" : \"darkstar123\",\r\n    \"role\" : \"4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/register/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"register",
+								""
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Password Reset Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"yusuf@s1.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/password-reset-req/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"password-reset-req",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Email Account",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/auth/verify-email/?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxOTUxMDk4LCJpYXQiOjE2NjE5MzY2OTgsImp0aSI6Ijc1OWQxZjdkMmZlYTQ3OTI4MmZhYTc3MTllMWY5YmEzIiwidXNlcl9pZCI6MzR9.FaRH1B-AKUlbeNy-mtfWCJcENfAa1szGDslJwKl8ZSI",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"verify-email",
+								""
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxOTUxMDk4LCJpYXQiOjE2NjE5MzY2OTgsImp0aSI6Ijc1OWQxZjdkMmZlYTQ3OTI4MmZhYTc3MTllMWY5YmEzIiwidXNlcl9pZCI6MzR9.FaRH1B-AKUlbeNy-mtfWCJcENfAa1szGDslJwKl8ZSI"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Password Reset Confirm",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/api/auth/password-reset-confirm/MjY/bb0uv1-e67e04e908d05280bcd1171e1ae90f8a/",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"password-reset-confirm",
+								"MjY",
+								"bb0uv1-e67e04e908d05280bcd1171e1ae90f8a",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set New Password",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\" : \"hellodarkness222\",\r\n    \"uidb64\": \"MjY\",\r\n    \"token\": \"bb0uv1-e67e04e908d05280bcd1171e1ae90f8a\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/password-reset-complete/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"password-reset-complete",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login ( ADMIN - admin)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@admin.com\",\r\n    \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/login/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login (Bank Manger - manager)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"manager@manager.com\",\r\n    \"password\" : \"manager\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/login/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login ( SELLER - Sazin )",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							},
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"s@s1.com\",\r\n    \"password\": \"sazin123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/login/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login (Customer - Raihan)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"raihan@raihan.com\",\r\n    \"password\" : \"raihan123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/login/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login (Customer - Shoumik)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"shoumik@shoumik.com\",\r\n    \"password\" : \"shoumik\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/login/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login (SELLER- YUSUF)",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\" : \"yusuf@s1.com\",\r\n    \"password\": \"hellodarkness222\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/login/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login(Customer - darkstar)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"dark@star.com\",\r\n    \"password\":\"darkstar123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/auth/login/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Profile",
 			"item": [
 				{
-					"name": "Profile Update",
+					"name": "Profile Update (Sazin Seller)",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwNjY1NzY4LCJpYXQiOjE2NjA2NTEzNjgsImp0aSI6ImYwZDNhMWU5ZjAzZDQ2OTBiZmU4ODM3OGU1YjNhZWUwIiwidXNlcl9pZCI6MjV9.HczeEyxxwHKqNaDB59mSznlcU3Bkh1zCB-KkLF_eDeA",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYyMDMwNDQ3LCJpYXQiOjE2NjIwMDg4NDcsImp0aSI6IjUzNjYzOTMwOGZlMTQ5MzE4NmQxYTc3MGIwYzk4NmYzIiwidXNlcl9pZCI6MjV9.7kC9CuvDvNF56LOdP9VS-IoANsd-OD0H7sySt_IDYXE",
 									"type": "string"
 								}
 							]
 						},
-						"method": "PUT",
+						"method": "PATCH",
 						"header": [
 							{
 								"key": "Accept",
@@ -37,7 +443,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \r\n    \"bank_account\" : \"10001\"\r\n}",
+							"raw": "{   \r\n    \"address\" : \"Brahmanbaria Sadar, Brahmanbaria\",\r\n    \"gender\" : \"M\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -45,7 +451,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/auth/profile/sazin11",
+							"raw": "http://localhost:8000/api/auth/profile-update/sazin11",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -54,7 +460,7 @@
 							"path": [
 								"api",
 								"auth",
-								"profile",
+								"profile-update",
 								"sazin11"
 							]
 						}
@@ -62,7 +468,7 @@
 					"response": []
 				},
 				{
-					"name": "Profile View",
+					"name": "Profile View (Seller - Sazin )",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -96,7 +502,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwNzI2OTMwLCJpYXQiOjE2NjA3MTI1MzAsImp0aSI6IjNhMzc4YTkzZmJiZjRmNDg5ZTc3NjIzYWQ5OWI2YTYyIiwidXNlcl9pZCI6MjZ9.T2C436us9osheWR2bKLf1SVd_ZbAOjPtATJiIif2B08",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxOTc1MTI1LCJpYXQiOjE2NjE5NjA3MjUsImp0aSI6IjZjYzJlNWRkYTU0MjQzNGJhOGFkZWIyNTJmMDQ2YTg4IiwidXNlcl9pZCI6Mjl9.npELBwcmjyIIzkx1Upm5izZGpNRu23HWVqBDrJnVv68",
 									"type": "string"
 								}
 							]
@@ -105,7 +511,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\" : \"Al Mubaraka Shop\",\r\n    \"location\" : \"Sham\",\r\n    \"description\" : \"Thanks For visiting us.\"\r\n}",
+							"raw": "{\r\n    \"name\" : \"Chhupa Kamrul Shop\",\r\n    \"location\" : \"Hindustan\",\r\n    \"description\" : \"Please please buy my products.\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -290,7 +696,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwNzUzMDg3LCJpYXQiOjE2NjA3Mzg2ODcsImp0aSI6IjRhNzI2OTFlZDM5ZDQ4NDNhODU1NzQ0ZjI2YTQzZWY5IiwidXNlcl9pZCI6MjV9.dfCvxpKgAUzXZF3Crpq0imKhZZpRTACEPpP9b8ppnX0",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxOTUwNDE5LCJpYXQiOjE2NjE5MzYwMTksImp0aSI6IjI3NTc2YTU2YTUwNzQ4Yjc4OGViNjg0OGU1MWY5NDlhIiwidXNlcl9pZCI6MjV9.OWZXm6CmD9YFyb42bKl3ARGmypHFEOReo0ROYXt4Pz0",
 									"type": "string"
 								}
 							]
@@ -333,6 +739,16 @@
 				{
 					"name": "Bank Account Update",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxOTUwNDE5LCJpYXQiOjE2NjE5MzYwMTksImp0aSI6IjI3NTc2YTU2YTUwNzQ4Yjc4OGViNjg0OGU1MWY5NDlhIiwidXNlcl9pZCI6MjV9.OWZXm6CmD9YFyb42bKl3ARGmypHFEOReo0ROYXt4Pz0",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -343,7 +759,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \r\n    \"credential\" : \"111credential111\"\r\n}",
+							"raw": "{   \r\n    \"credential\" : \"credential\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -351,7 +767,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/bank/update-account/10001",
+							"raw": "http://localhost:8000/api/bank/update-account/10019",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -361,7 +777,7 @@
 								"api",
 								"bank",
 								"update-account",
-								"10001"
+								"10019"
 							]
 						}
 					},
@@ -379,7 +795,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8000/api/bank/delete-account/10001",
+							"raw": "http://localhost:8000/api/bank/delete-account/10019",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -389,15 +805,57 @@
 								"api",
 								"bank",
 								"delete-account",
-								"10001"
+								"10019"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "List Bank",
+					"name": "Single Bank Account",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxOTY2ODIyLCJpYXQiOjE2NjE5NTI0MjIsImp0aSI6IjU3MTc0NTNlNmFhNjQ0MTliY2I1NzY5ZTUyMzNjMzhiIiwidXNlcl9pZCI6Mjd9.CxBThOSOZ7pomvJmryrT_rIRavoHSnSR1OD8xzkxjCI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/bank/single-account/10006",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"bank",
+								"single-account",
+								"10006"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Bank Account",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxOTUzMjM1LCJpYXQiOjE2NjE5Mzg4MzUsImp0aSI6ImQxNjA2YjAwNjI4MzQzOWE4MGU0MjVmYjYxZTFkMjFmIiwidXNlcl9pZCI6Mjd9.X6pMJnukLpnbz0QLiOPnqKEihD976tt3dbI6uT0oXjM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -418,13 +876,13 @@
 					"response": []
 				},
 				{
-					"name": "Add money",
+					"name": "Cash In Request",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"account_to\" : \"10006\",\r\n    \"amount\" : \"10000\"\r\n}",
+							"raw": "{\r\n    \"account_to\" : \"10006\",\r\n    \"amount\" : 25000\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -449,13 +907,45 @@
 					"response": []
 				},
 				{
-					"name": "Send Money",
+					"name": "Cash In Approval",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxOTUzMjM1LCJpYXQiOjE2NjE5Mzg4MzUsImp0aSI6ImQxNjA2YjAwNjI4MzQzOWE4MGU0MjVmYjYxZTFkMjFmIiwidXNlcl9pZCI6Mjd9.X6pMJnukLpnbz0QLiOPnqKEihD976tt3dbI6uT0oXjM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/bank/approve-cash-in-request/25",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"bank",
+								"approve-cash-in-request",
+								"25"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Money Request and Approval",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \"account_from\" : \"10006\",\r\n    \"credential\" : \"dontrytohack\",\r\n    \"account_to\" : \"10002\",\r\n    \"amount\" : \"1000\"\r\n}",
+							"raw": "{   \"account_from\" : \"10006\",\r\n    \"credential\" : \"hack\",\r\n    \"account_to\" : \"10002\",\r\n    \"amount\" : \"99\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -474,38 +964,6 @@
 								"bank",
 								"send-money-request",
 								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Cash In Approval",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwODUyNDI1LCJpYXQiOjE2NjA4MzgwMjUsImp0aSI6IjFlMTIxZGZjM2M1ZTRiOTM5MjM5NTE4OGZlZDk3ZjEyIiwidXNlcl9pZCI6Mjd9.pe3WH0Q8Svkl5ZZIFJFzbmKvY21574xNayYtEMpFVYI",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8000/api/bank/approve-cash-in-request/9",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"bank",
-								"approve-cash-in-request",
-								"9"
 							]
 						}
 					},
@@ -538,7 +996,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/api/bank/single-transaction/1001",
+							"raw": "http://localhost:8000/api/bank/single-transaction/21",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -548,7 +1006,7 @@
 								"api",
 								"bank",
 								"single-transaction",
-								"1001"
+								"21"
 							]
 						}
 					},
@@ -611,276 +1069,6 @@
 								}
 							]
 						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Auth",
-			"item": [
-				{
-					"name": "Register",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "default"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\" : \"shoumik@shoumik.com\",\r\n    \"username\": \"shoumik\",\r\n    \"password\" : \"shoumik\",\r\n    \"role\" : \"4\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8000/api/auth/register/",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"auth",
-								"register",
-								""
-							],
-							"query": [
-								{
-									"key": "",
-									"value": "",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Login ( ADMIN - admin)",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "default"
-							},
-							{
-								"key": "Authorization",
-								"value": "",
-								"type": "default",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"admin@admin.com\",\r\n    \"password\": \"admin\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8000/api/auth/login/",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"auth",
-								"login",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Login (Bank Manger - manager)",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\" : \"manager@manager.com\",\r\n    \"password\" : \"manager\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8000/api/auth/login/",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"auth",
-								"login",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Login ( SELLER - Sazin )",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "default"
-							},
-							{
-								"key": "Authorization",
-								"value": "",
-								"type": "default",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"s@s1.com\",\r\n    \"password\": \"sazin123\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8000/api/auth/login/",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"auth",
-								"login",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Login (SELLER- YUSUF)",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\" : \"yusuf@s1.com\",\r\n    \"password\": \"sazin123\" \r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8000/api/auth/login/",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"auth",
-								"login",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Login (Customer - Raihan)",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\" : \"raihan@raihan.com\",\r\n    \"password\" : \"raihan\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8000/api/auth/login/",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"auth",
-								"login",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Login (Customer - Shoumik)",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\" : \"shoumik@shoumik.com\",\r\n    \"password\" : \"shoumik\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8000/api/auth/login/",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"auth",
-								"login",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Password Reset Request",
-					"request": {
-						"method": "GET",
-						"header": []
 					},
 					"response": []
 				}
@@ -999,14 +1187,14 @@
 					"response": []
 				},
 				{
-					"name": "Create Category",
+					"name": "Create Category (SELLER - Sazin)",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYwOTgzMjM2LCJpYXQiOjE2NjA5Njg4MzYsImp0aSI6ImFiMzEyNGYxZTQ0ZjRmM2JhYjc0YWMzNjFmNTA5NmNhIiwidXNlcl9pZCI6MjV9.fMlX6ucoXo_r46uEs5JsAsVHFoiMrzvE4mDPw9HIW2w",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYyMDMwNDQ3LCJpYXQiOjE2NjIwMDg4NDcsImp0aSI6IjUzNjYzOTMwOGZlMTQ5MzE4NmQxYTc3MGIwYzk4NmYzIiwidXNlcl9pZCI6MjV9.7kC9CuvDvNF56LOdP9VS-IoANsd-OD0H7sySt_IDYXE",
 									"type": "string"
 								}
 							]
@@ -1015,7 +1203,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\" : \"Motherboard\",\r\n    \"slug\" : \"board\"\r\n}",
+							"raw": "{\r\n    \"name\" : \"Android Phone\",\r\n    \"slug\" : \"android-phone\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1103,13 +1291,23 @@
 					"response": []
 				},
 				{
-					"name": "Product Create",
+					"name": "Product Create (Seller - Sazin)",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYyMDMwNDQ3LCJpYXQiOjE2NjIwMDg4NDcsImp0aSI6IjUzNjYzOTMwOGZlMTQ5MzE4NmQxYTc3MGIwYzk4NmYzIiwidXNlcl9pZCI6MjV9.7kC9CuvDvNF56LOdP9VS-IoANsd-OD0H7sySt_IDYXE",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"RAM\",\r\n    \"category\" : \"2\",\r\n    \"is_active\": \"true\",\r\n    \"price\" : \"3000\",\r\n    \"units\" : \"30\",\r\n    \"units_sold\" : \"2\",\r\n    \"store\" : \"9\"\r\n}",
+							"raw": "{\r\n    \"name\": \"One Plus X4\",\r\n    \"category\" : \"10\",\r\n    \"is_active\": \"true\",\r\n    \"price\" : \"1000\",\r\n    \"units\" : \"25\",\r\n    \"units_sold\" : \"2\",\r\n    \"store\" : \"9\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1188,7 +1386,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMzQzNDA5LCJpYXQiOjE2NjEzMjkwMDksImp0aSI6ImMzZGU2ODFmYjg0YTQ1YzliMDQ2NWZlYWQ3OTE2MzgzIiwidXNlcl9pZCI6Mjh9.LSjZ-fqLNL4tsZcHbvdP4ccebmrSG2NXkBqNt970t-g",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYyMDMwNTczLCJpYXQiOjE2NjIwMDg5NzMsImp0aSI6ImY4NGZlY2JiZTRkYTRhZWE4OWZjOWIyNzVkZmIxZDg5IiwidXNlcl9pZCI6MzN9.0h5bYD8ElN8D4MvwG2KvtwNQpx6gGbVZlbKPZzJeD10",
 									"type": "string"
 								}
 							]
@@ -1197,7 +1395,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "\r\n    {\r\n        \"product\": 2,\r\n        \"quantity\":50000\r\n    }",
+							"raw": "\r\n    {\r\n        \"product\": 8,\r\n        \"quantity\":1\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1254,14 +1452,14 @@
 					"response": []
 				},
 				{
-					"name": "List All Cart Items",
+					"name": "List All Cart Items (Raihan)",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMzQzNDA5LCJpYXQiOjE2NjEzMjkwMDksImp0aSI6ImMzZGU2ODFmYjg0YTQ1YzliMDQ2NWZlYWQ3OTE2MzgzIiwidXNlcl9pZCI6Mjh9.LSjZ-fqLNL4tsZcHbvdP4ccebmrSG2NXkBqNt970t-g",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYyMDMwNTczLCJpYXQiOjE2NjIwMDg5NzMsImp0aSI6ImY4NGZlY2JiZTRkYTRhZWE4OWZjOWIyNzVkZmIxZDg5IiwidXNlcl9pZCI6MzN9.0h5bYD8ElN8D4MvwG2KvtwNQpx6gGbVZlbKPZzJeD10",
 									"type": "string"
 								}
 							]
@@ -1323,14 +1521,14 @@
 			"name": "Order",
 			"item": [
 				{
-					"name": "Place Order",
+					"name": "Place Order (Raihan)",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMzQzNDA5LCJpYXQiOjE2NjEzMjkwMDksImp0aSI6ImMzZGU2ODFmYjg0YTQ1YzliMDQ2NWZlYWQ3OTE2MzgzIiwidXNlcl9pZCI6Mjh9.LSjZ-fqLNL4tsZcHbvdP4ccebmrSG2NXkBqNt970t-g",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYyMDMwNTczLCJpYXQiOjE2NjIwMDg5NzMsImp0aSI6ImY4NGZlY2JiZTRkYTRhZWE4OWZjOWIyNzVkZmIxZDg5IiwidXNlcl9pZCI6MzN9.0h5bYD8ElN8D4MvwG2KvtwNQpx6gGbVZlbKPZzJeD10",
 									"type": "string"
 								}
 							]
@@ -1364,14 +1562,14 @@
 					"response": []
 				},
 				{
-					"name": "Track Order",
+					"name": "Track Order (Raihan)",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMzgyMzM5LCJpYXQiOjE2NjEzNjc5MzksImp0aSI6IjA5MjU2NzBjNjBiYjRiNjNhYmYxNjljNDBhZWFmZjk1IiwidXNlcl9pZCI6Mjl9.GeaDU-YO2kETorE6y5WrrBu0GKZ2lL2eJ2yT-UTCqo0",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYyMDMwNTczLCJpYXQiOjE2NjIwMDg5NzMsImp0aSI6ImY4NGZlY2JiZTRkYTRhZWE4OWZjOWIyNzVkZmIxZDg5IiwidXNlcl9pZCI6MzN9.0h5bYD8ElN8D4MvwG2KvtwNQpx6gGbVZlbKPZzJeD10",
 									"type": "string"
 								}
 							]
@@ -1379,7 +1577,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/api/orders/track-order/1",
+							"raw": "http://localhost:8000/api/orders/track-orders/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1388,7 +1586,7 @@
 							"path": [
 								"api",
 								"orders",
-								"track-order",
+								"track-orders",
 								"1"
 							]
 						}
@@ -1396,14 +1594,14 @@
 					"response": []
 				},
 				{
-					"name": "Order Item List",
+					"name": "Order Item List ( Raihan)",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMzc4MjkwLCJpYXQiOjE2NjEzNjM4OTAsImp0aSI6ImY0Njg4YzkzZTI3ZTQ1OGQ4NzM2Nzg5YmNlOGE3MDQ1IiwidXNlcl9pZCI6Mjh9.AEY4YYkvbZrkfBbKyQ_TaDf3dBeBdjJmctDM4nmOc8c",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYyMDMwNTczLCJpYXQiOjE2NjIwMDg5NzMsImp0aSI6ImY4NGZlY2JiZTRkYTRhZWE4OWZjOWIyNzVkZmIxZDg5IiwidXNlcl9pZCI6MzN9.0h5bYD8ElN8D4MvwG2KvtwNQpx6gGbVZlbKPZzJeD10",
 									"type": "string"
 								}
 							]
@@ -1428,7 +1626,7 @@
 					"response": []
 				},
 				{
-					"name": "All Order List",
+					"name": "Track All Order List",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1443,7 +1641,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8000/api/orders/track-order/",
+							"raw": "http://localhost:8000/api/orders/track-orders/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1452,7 +1650,7 @@
 							"path": [
 								"api",
 								"orders",
-								"track-order",
+								"track-orders",
 								""
 							]
 						}
@@ -1504,17 +1702,17 @@
 			]
 		},
 		{
-			"name": "Payment",
+			"name": "Payment Gateway",
 			"item": [
 				{
-					"name": "Make Payment",
+					"name": "Make Payment (Raihan)",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYxMzc4MjkwLCJpYXQiOjE2NjEzNjM4OTAsImp0aSI6ImY0Njg4YzkzZTI3ZTQ1OGQ4NzM2Nzg5YmNlOGE3MDQ1IiwidXNlcl9pZCI6Mjh9.AEY4YYkvbZrkfBbKyQ_TaDf3dBeBdjJmctDM4nmOc8c",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjYyMDMwNTczLCJpYXQiOjE2NjIwMDg5NzMsImp0aSI6ImY4NGZlY2JiZTRkYTRhZWE4OWZjOWIyNzVkZmIxZDg5IiwidXNlcl9pZCI6MzN9.0h5bYD8ElN8D4MvwG2KvtwNQpx6gGbVZlbKPZzJeD10",
 									"type": "string"
 								}
 							]
@@ -1523,7 +1721,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"order_id\": 1,\r\n    \"credential\": \"hack\" ,\r\n    \"amount\" : 1500\r\n}",
+							"raw": "{\r\n  \"order_id\": 4,\r\n  \"amount\": 5000,\r\n  \"credential\": \"hack\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
